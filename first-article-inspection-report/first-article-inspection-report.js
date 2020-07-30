@@ -76,15 +76,15 @@ function autoNumberCol(tElem, colIndex, start = 0) {
 
 
 /* ******************** */
-// Table_menu class
+// TableMenu class
 /* ******************** */
 
 /** Class representing a menu of things that modify a table */
-class Table_menu {
+class TableMenu {
 	/**
 	 * Create an object that represents a menu that contains useful functions for table manipulations (e.g. a div containing buttons that add and remove rows in a table).
 	 *
-	 * Table_menu.buttons {Map}:
+	 * TableMenu.buttons {Map}:
 	 * On class instantiation, all `<button>` HTML objects will be added to the `this.buttons` map and are keyed by the HTML ID of the button.
 	 *
 	 *
@@ -200,7 +200,7 @@ window.onload = function() {
 	autoNumberCol(table_main_body, 0, 1);
 
 	/* Set up main table menu that appears below the main table */
-	const table_menu = new Table_menu(document.getElementById("table_main_menu"));
+	const table_menu = new TableMenu(document.getElementById("table_main_menu"));
 
 	// Insert new row button
 	table_menu.buttons.get("rowAppend").addEventListener( "click", function() {
