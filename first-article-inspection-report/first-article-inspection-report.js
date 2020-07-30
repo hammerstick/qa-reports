@@ -68,7 +68,7 @@ function autoNumberCol(tElem, colIndex, start = 0) {
 	let numGen = genArray(range(start,numRows+1));
 
 	for (let row of tElem.rows) {
-		row.cells[colIndex].innerHTML = numGen.next().value;
+		row.cells[colIndex].textContent = numGen.next().value;
 	}
 }
 
@@ -88,7 +88,7 @@ class Table_menu {
 	 * On class instantiation, all `<button>` HTML objects will be added to the `this.buttons` map and are keyed by the HTML ID of the button.
 	 *
 	 *
-	 * @param {object} menuElem - HTML element that contains the menu.
+	 * @param {object} menuElem - DOM element that contains the menu.
 	 *
 	 */
 	constructor(menuElem) {
