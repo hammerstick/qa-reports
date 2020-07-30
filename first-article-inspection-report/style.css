@@ -1,0 +1,175 @@
+/* Main font for everything is DejaVu Serif */
+@font-face {
+	font-family: "DejaVu Serif";
+	src: url(../fonts/DejaVuSerif.ttf);
+}
+
+@font-face {
+	font-family: "DejaVu Serif";
+	src: url(../fonts/DejaVuSerif-Bold.ttf);
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: "DejaVu Serif";
+	src: url(../fonts/DejaVuSerif-Italic.ttf);
+	font-style: italic;
+}
+
+
+
+h1, h2, h3 {
+	/* Bolding does not look good */
+	font-weight: normal;
+	text-align: center;
+}
+
+/* These settings apply when printing to a printer or to PDF file */
+@media print {
+	/* Elements with this class, including children, will be removed in print */
+	.no-print, .no-print * {
+		display: none !important;
+	}
+
+	/* Hide the borders of all input boxes */
+	input {
+		border: 0px !important;
+	}
+}
+
+body {
+	font-family: "DejaVu Serif";
+}
+
+
+/* "Reasons" section */
+#reasons {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+/* Styling for "reason" checkboxes */
+
+/* Hide the default checkbox */
+.reasoncheckbox {
+	visibility: hidden;
+}
+
+
+.reasoncheckbox + label {
+	position: relative;
+	cursor: pointer;
+}
+
+/* Draw a new checkbox visual */
+.reasoncheckbox + label::before {
+	display: inline-block;
+	content: "";
+	height: 1em; width: 1em;
+	border: 2px solid #ccc;
+	border-radius: .2em;
+	overflow: hidden;
+}
+
+.reasoncheckbox:checked + label::before {
+	content: "✓";
+}
+
+/* Table stylings */
+.table-basic {
+	table-layout: auto;
+	text-align: center;
+	border: 1px solid;
+	border-collapse: collapse;
+}
+
+#partinfo {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#table_main_section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+th, td {
+	padding: 5px;
+	border: 1px solid;
+}
+
+tr:nth-child(even) {
+	background-color: whitesmoke;
+}
+
+input {
+	background: transparent;
+}
+
+/* Styles for cells in the partinfo table */
+.partnum {
+	width: 7em;
+}
+
+.partrev {
+	width: 2em;
+}
+
+.partdesc {
+	width: 25em;
+}
+
+.partpo {
+	width: 10em;
+}
+
+.partserial {
+	width: 10em;
+}
+
+/* Styles for cells in the main table*/
+.itemnum, .pagenum, .loc {
+	width: 2em;
+}
+
+.param {
+	width: 15 em;
+}
+
+.actual {
+	width: 10 em;
+}
+
+.insptool {
+	width: 10 em;
+}
+
+/* Menu for modifying the main table */
+.table_menu {
+	display: flex;
+	margin-top: 10px;
+	height: 50px; width: 100%;
+	border: 5px solid red;
+}
+
+.table_menu > * {
+	margin: 5px;
+}
+
+/* Floating menu that appears when hovering over table rows */
+
+/* This class is the initial, hidden style for floating menus */
+.table_menu_float {
+	display: none;
+}
+
+/* Floating menus show change classes to this one when the event that triggles its visibility is fired */
+.table_menu_float_visible {
+	display: block;
+	position: absolute;
+	border: 1px solid blue;
+}
