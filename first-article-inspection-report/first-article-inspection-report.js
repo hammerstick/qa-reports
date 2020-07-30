@@ -207,22 +207,4 @@ window.onload = function() {
 	table_menu.buttons.get("rowAppend").addEventListener( "click", function() {
 		tableAppendRows( table_main_body,1,table_main.tHead.rows[0].cells.length,genArray(table_main_cells, Infinity) )} )
 
-	/* Set up a floating menu that appears next to table rows on mouseover */
-
-	let table_menu_float = new Table_menu(document.getElementById("table_menu_float"))
-
-	for (let row of table_main_body.rows) {
-		row.addEventListener("mouseover", function() {
-		let causalRowTop = row.getBoundingClientRect().top
-		let causalRowRight = row.getBoundingClientRect().right
-		table_menu_float.menuElem.style.top = causalRowTop+"px"
-		table_menu_float.menuElem.style.right = causalRowRight+"px"
-
-		table_menu_float.menuElem.classList.remove("table_menu_float")
-		table_menu_float.menuElem.classList.add("table_menu_float_visible")
-
-		setTimeout(function() {table_menu_float.menuElem.classList.remove("table_menu_float_visible"); table_menu_float.menuElem.classList.add("table_menu_float")}, 2000)
-		})
-	}
-
 }

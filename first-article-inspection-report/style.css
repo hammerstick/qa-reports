@@ -159,17 +159,3 @@ input {
 .table_menu > * {
 	margin: 5px;
 }
-
-/* Floating menu that appears when hovering over table rows */
-
-/* This class is the initial, hidden style for floating menus */
-.table_menu_float {
-	display: none;
-}
-
-/* Floating menus show change classes to this one when the event that triggles its visibility is fired */
-.table_menu_float_visible {
-	display: block;
-	position: absolute;
-	border: 1px solid blue;
-}
