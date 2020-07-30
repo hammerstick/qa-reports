@@ -101,7 +101,6 @@ class Table_menu {
 	/**
 	 * Add all direct children button elements of the menu elements to the `buttons` Map.
 	 * Each Map entry is keyed to the button's HTML ID.
-	 *
 	 */
 	addAllChildrenButtons() {
 		for (let i = 0; i < this.menuElem.children.length; i++) {
@@ -209,4 +208,23 @@ window.onload = function() {
 		autoNumberCol(table_main_body, 0, 1)
 		} )
 
+	/* For every row, insert a floating menu that appears when hovering over a row. */
+	for (let row of table_main_body.rows) {
+		let tableMenuFloatElem = document.createElement("div")
+		tableMenuFloatElem.classList.add("table_menu_float")
+		tableMenuFloatElem.classList.add("no-print")
+
+		let rowDeleteButton = document.createElement("button")
+		rowDeleteButton.type = "button"
+		rowDeleteButton.classList.add("rowDelete")
+		rowDeleteButton.textContent = "Delete Row"
+		rowDeleteButton.addEventListener("click", function() {
+			row.parentNode.removeChild(row)
+			})
+
+		tableMenuFloatElem.append(rowDeleteButton)
+
+
+		row.appendChild(tableMenuFloatElem)
+	}
 }

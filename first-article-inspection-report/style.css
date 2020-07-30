@@ -159,3 +159,14 @@ input {
 .table_menu > * {
 	margin: 5px;
 }
+
+/* Styling for the floating menus that appear next to table rows */
+.table_menu_float {
+	display: none;
+	position: absolute;
+	border: 1px solid red;
+}
+
+tr:hover .table_menu_float {
+	display: flex;
+}
