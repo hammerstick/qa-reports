@@ -205,6 +205,8 @@ window.onload = function() {
 
 	// Insert new row button
 	table_menu.buttons.get("rowAppend").addEventListener( "click", function() {
-		tableAppendRows( table_main_body,1,table_main.tHead.rows[0].cells.length,genArray(table_main_cells, Infinity) )} )
+		tableAppendRows( table_main_body,1,table_main.tHead.rows[0].cells.length,genArray(table_main_cells, Infinity) )
+		autoNumberCol(table_main_body, 0, 1)
+		} )
 
 }
