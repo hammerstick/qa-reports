@@ -26,6 +26,15 @@ h1, h2, h3 {
 
 /* These settings apply when printing to a printer or to PDF file */
 @media print {
+	@page {
+		margin: 10mm 10mm 10mm 10mm;
+	}
+
+	/* Decrease font size globally so more rows can fit in the table */
+	html {
+		font-size: small;
+	}
+
 	/* Elements with this class, including children, will be removed in print */
 	.no-print, .no-print * {
 		display: none !important;
@@ -97,8 +106,13 @@ body {
 	margin-right: auto;
 }
 
-th, td {
+th {
 	padding: 5px;
+	border: 1px solid;
+}
+
+td {
+	padding: 1px;
 	border: 1px solid;
 }
 

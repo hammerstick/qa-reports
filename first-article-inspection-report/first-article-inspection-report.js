@@ -1,5 +1,10 @@
 "use strict";
 
+/** Initial number of rows in the main table.
+ * This number should be set such that the page fits on a single letter-size page when printed.
+ */
+const rowNumInitial = 28
+
 /* ******************** */
 // Table functions
 /* ******************** */
@@ -230,7 +235,7 @@ window.onload = function() {
 
 	// Initially insert approximately enough rows in the main table to fill a page if printed
 	tableAppendRows(table_main_body,
-	                22,
+	                rowNumInitial,
 	                table_main.tHead.rows[0].cells.length,
 	                genArray(table_main_cells, Infinity)
 	                );
