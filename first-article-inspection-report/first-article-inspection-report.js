@@ -199,8 +199,18 @@ mathMap.set("\\pm","±")
 mathMap.set("\\dia","⌀")
 mathMap.set("\\deg","°")
 mathMap.set("\\perp","⊥")
-mathMap.set("\\para","▱")
+mathMap.set("\\paragram","▱")
+mathMap.set("\\paral","∥")
 mathMap.set("\\ang","∠")
+mathMap.set("\\circcon","◎")
+mathMap.set("\\circhalf","⌓")
+mathMap.set("\\circcros","⌖")
+mathMap.set("\\circlin","⌭")
+mathMap.set("\\circarc","⌒")
+mathMap.set("\\circ","○")
+mathMap.set("\\nearrow2","⌰")
+mathMap.set("\\nearrow","↗")
+
 
 
 // Each row of the main table will contain these HTML lines in the cells, in this order.
