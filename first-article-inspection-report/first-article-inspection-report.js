@@ -113,6 +113,26 @@ class TableMenu {
 }
 
 /* ******************** */
+// String processing functions
+/* ******************** */
+
+/**
+ * Replace substrings in a string based on a Map.
+ *
+ * @param {String} theString - The string to process.
+ * @param {Map<String, String>} mapper - All keys from this Map found in theString will be replaced by their values.
+ * @returns {String} - A new String, which is theString with all keys found in mapper replaced by their values.
+ */
+
+function applyMapToString(theString, mapper) {
+	let newString = theString
+	for (let [key, value] of mapper) {
+		newString = newString.replace(key, value)
+	}
+	return newString
+}
+
+/* ******************** */
 // Utility functions
 /* ******************** */
 
@@ -173,14 +193,24 @@ InvalidArgumentException.prototype.constructor = InvalidArgumentException
 // Main
 /* ******************** */
 
+// This map is used to allow the user to input math symbols commonly used in inspection reports.
+let mathMap = new Map()
+mathMap.set("\\pm","±")
+mathMap.set("\\dia","⌀")
+mathMap.set("\\deg","°")
+mathMap.set("\\perp","⊥")
+mathMap.set("\\para","▱")
+mathMap.set("\\ang","∠")
+
+
 // Each row of the main table will contain these HTML lines in the cells, in this order.
 let table_main_cells = [
-                       "<label><input class=\"itemnum\" ></input></label>",
-                       "<label><input class=\"pagenum\" ></input></label>",
-                       "<label><input class=\"loc\" ></input></label>",
-                       "<label><input class=\"param\" ></input></label>",
-                       "<label><input class=\"actual\" ></input></label>",
-                       "<label><input class=\"insptool\" ></input></label>"
+                       "<label><input type=\"text\" class=\"itemnum\" ></input></label>",
+                       "<label><input type=\"text\" class=\"pagenum\" ></input></label>",
+                       "<label><input type=\"text\" class=\"loc\" ></input></label>",
+                       "<label><input type=\"text\" class=\"param\" ></input></label>",
+                       "<label><input type=\"text\" class=\"actual\" ></input></label>",
+                       "<label><input type=\"text\" class=\"insptool\" ></input></label>"
                        ]
 
 window.onload = function() {
@@ -202,11 +232,22 @@ window.onload = function() {
 	/* Set up main table menu that appears below the main table */
 	const table_menu = new TableMenu(document.getElementById("table_main_menu"));
 
-	// Insert new row button
+	// "Insert new row" button processing
 	table_menu.buttons.get("rowAppend").addEventListener( "click", function() {
 		tableAppendRows( table_main_body,1,table_main.tHead.rows[0].cells.length,genArray(table_main_cells, Infinity) )
 		autoNumberCol(table_main_body, 0, 1)
 		} )
+
+	// "Parse input text" button processing
+	table_menu.buttons.get("parseInputText").addEventListener("click", function() {
+		// This variable needs to be rebuilt every time this function is called
+		// because `querySelectorAll` returns a static view, not a live view.
+		let inputTextAll = document.querySelectorAll("input[type=text]")
+		for (let node of inputTextAll) {
+			node.value = applyMapToString(node.value, mathMap)
+		}
+
+	})
 
 	/* For every row, insert a floating menu that appears when hovering over a row. */
 	for (let row of table_main_body.rows) {
