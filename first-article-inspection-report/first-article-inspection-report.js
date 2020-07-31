@@ -220,10 +220,10 @@ window.onload = function() {
 		rowDeleteButton.textContent = "Delete Row"
 		rowDeleteButton.addEventListener("click", function() {
 			row.parentNode.removeChild(row)
+			autoNumberCol(table_main_body, 0, 1)
 			})
 
 		tableMenuFloatElem.append(rowDeleteButton)
-
 
 		row.appendChild(tableMenuFloatElem)
 	}
