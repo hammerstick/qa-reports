@@ -228,9 +228,9 @@ window.onload = function() {
 	const table_main = document.getElementById("table_main")
 	const table_main_body = table_main.getElementsByTagName("tbody")[0]
 
-	// Insert 23 rows in the main table
+	// Initially insert approximately enough rows in the main table to fill a page if printed
 	tableAppendRows(table_main_body,
-	                23,
+	                22,
 	                table_main.tHead.rows[0].cells.length,
 	                genArray(table_main_cells, Infinity)
 	                );
@@ -252,7 +252,7 @@ window.onload = function() {
 	table_menu.buttons.get("parseInputText").addEventListener("click", function() {
 		// This variable needs to be rebuilt every time this function is called
 		// because `querySelectorAll` returns a static view, not a live view.
-		let inputTextAll = document.querySelectorAll("input[type=text]")
+		let inputTextAll = document.querySelectorAll("[type=text]")
 		for (let node of inputTextAll) {
 			node.value = applyMapToString(node.value, mathMap)
 		}

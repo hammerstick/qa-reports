@@ -132,6 +132,7 @@ input {
 }
 
 /* Styles for cells in the main table*/
+/* Each class is a column */
 .itemnum, .pagenum, .loc {
 	width: 2em;
 }
@@ -168,4 +169,16 @@ input {
 
 tr:hover .table_menu_float {
 	display: flex;
+}
+
+/* Comment text box */
+#commentSection {
+	justify-content: flex-end;
+	display: flex;
+}
+
+.commentBox {
+	width: 100%;
+	margin: 0 5px;
+	resize: none;
 }
