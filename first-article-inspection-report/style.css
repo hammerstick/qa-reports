@@ -16,14 +16,6 @@
 	font-style: italic;
 }
 
-
-
-h1, h2, h3 {
-	/* Bolding does not look good */
-	font-weight: normal;
-	text-align: center;
-}
-
 /* These settings apply when printing to a printer or to PDF file */
 @media print {
 	@page {
@@ -46,8 +38,10 @@ h1, h2, h3 {
 	}
 }
 
-body {
-	font-family: "DejaVu Serif";
+h1, h2, h3 {
+	/* Bolding does not look good */
+	font-weight: normal;
+	text-align: center;
 }
 
 
@@ -86,11 +80,25 @@ body {
 }
 
 /* Table stylings */
-.table-basic {
+.table_basic {
 	table-layout: auto;
 	text-align: center;
 	border: 1px solid;
 	border-collapse: collapse;
+}
+
+.table_basic th {
+	padding: 5px;
+	border: 1px solid;
+}
+
+.table_basic td {
+	padding: 1px;
+	border: 1px solid;
+}
+
+#table_main tr:nth-child(even) {
+	background-color: whitesmoke;
 }
 
 #partinfo {
@@ -104,20 +112,6 @@ body {
 	align-items: center;
 	margin-left: auto;
 	margin-right: auto;
-}
-
-th {
-	padding: 5px;
-	border: 1px solid;
-}
-
-td {
-	padding: 1px;
-	border: 1px solid;
-}
-
-tr:nth-child(even) {
-	background-color: whitesmoke;
 }
 
 #table_main tr:focus-within {
@@ -208,4 +202,29 @@ tr:hover .table_menu_float {
 	width: 100%;
 	margin: 0 5px;
 	resize: none;
+}
+
+/* Floating info box */
+#info_box_float {
+	display: flex;
+	position: fixed;
+
+	height: 200px;
+	width: 10em;
+	top: 0px;
+	left: 0px;
+}
+
+/* Escapted text table */
+#info_escaped_text {
+	border-collapse: collapse;
+	background-color: white
+}
+
+#info_escaped_text td {
+	padding: 2px;
+}
+
+#info_escaped_text tr:nth-child(even) {
+	background-color: ghostwhite;
 }

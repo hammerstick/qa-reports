@@ -31,7 +31,7 @@
 
 		<!-- Info about the part -->
 		<section id="partinfo">
-			<table class="table-basic" id="partinfo">
+			<table class="table_basic" id="partinfo">
 				<thead>
 					<tr>
 						<th>Part #</th>
@@ -56,7 +56,7 @@
 		<!-- This is the main table that contains the data -->
 		<section id="table_main_section">
 			<form>
-				<table class="table-basic" id="table_main">
+				<table class="table_basic" id="table_main">
 					<thead>
 						<tr>
 							<th>Item #</th>
@@ -67,8 +67,9 @@
 							<th>Inspection Tool</th>
 						</tr>
 					</thead>
-						<!-- The rows in this table body are dynamic and is controlled in javascript -->
+
 					<tbody>
+						<!-- The rows in this table body are dynamic and is controlled in javascript -->
 					</tbody>
 
 				</table>
@@ -89,8 +90,21 @@
 			</form>
 		</section>
 
-
 	</main>
+	<!-- Floating info box -->
+	<div class="no-print" id="info_box_float">
+		<table class="table_basic" id="info_escaped_text">
+			<thead>
+				<tr>
+					<th>Input</th>
+					<th>Symbol</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- Contents are controlled in javascript -->
+			</tbody>
+		</table>
+	</div>
 </body>
 
 </html>

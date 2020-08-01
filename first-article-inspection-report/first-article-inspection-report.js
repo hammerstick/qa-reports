@@ -356,4 +356,24 @@ window.onload = function() {
 		table_main.serialNumberCol("body", 0, 1)
 		} )
 
+	// Floating info box
+	let info_escaped_text = new Table(document.getElementById("info_escaped_text"))
+	info_escaped_text.regHead(info_escaped_text.tableElem.getElementsByTagName("thead")[0], "head")
+	info_escaped_text.regBody(info_escaped_text.tableElem.getElementsByTagName("tbody")[0], "body")
+
+	let mathMapToGen = function*() {
+		for (let [key, value] of mathMap.entries()) {
+			yield key
+			yield value
+		}
+
+	}
+
+	info_escaped_text.appendRows("body",
+	                             mathMap.size,
+	                             info_escaped_text.heads.get("head").rows[0].cells.length,
+	                             null,
+	                             mathMapToGen()
+	                            )
+
 }
