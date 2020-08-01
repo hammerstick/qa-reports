@@ -147,7 +147,7 @@ class Menu {
 	regAllChildrenButtons() {
 		for (let i = 0; i < this.menuElem.children.length; i++) {
 			let elem = this.menuElem.children[i]
-			if (elem.type == "button") {
+			if (elem.nodeName == "BUTTON") {
 				this.buttons.set(elem.id, elem)
 			}
 		}
