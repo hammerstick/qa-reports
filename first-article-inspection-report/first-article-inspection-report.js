@@ -166,7 +166,7 @@ class TableMenu {
  * @returns {String} - A new String, which is theString with all keys found in mapper replaced by their values.
  */
 
-function applyMapToString(theString, mapper) {
+function replaceSubstringMap(theString, mapper) {
 	let newString = theString
 	for (let [key, value] of mapper) {
 		newString = newString.replace(key, value)
@@ -331,7 +331,7 @@ window.onload = function() {
 		// because `querySelectorAll` returns a static view, not a live view.
 		let inputTextAll = document.querySelectorAll("[type=text]")
 		for (let node of inputTextAll) {
-			node.value = applyMapToString(node.value, mathMap)
+			node.value = replaceSubstringMap(node.value, mathMap)
 		}
 
 	})
