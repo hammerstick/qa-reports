@@ -353,6 +353,7 @@ window.onload = function() {
 		                      table_main.heads.get("head").rows[0].cells.length,
 		                      rowFunc,
 		                      genArray(table_main_cells, Infinity) )
+
 		table_main.serialNumberCol("body", 0, 1)
 		} )
 
