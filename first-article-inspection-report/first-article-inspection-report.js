@@ -135,8 +135,6 @@ class TableMenu {
 	constructor(menuElem) {
 		this.menuElem = menuElem
 		this.buttons = new Map()
-
-		this.regAllChildrenButtons()
 	}
 
 	/**
@@ -283,6 +281,7 @@ window.onload = function() {
 
 	/* Set up main table menu that appears below the main table */
 	const table_menu = new TableMenu(document.getElementById("table_main_menu"))
+	table_menu.regAllChildrenButtons()
 
 	// "Insert new row" button processing
 	table_menu.buttons.get("rowAppend").addEventListener( "click", function() {
