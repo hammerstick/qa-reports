@@ -179,6 +179,15 @@ input {
 	margin: 5px;
 }
 
+/* Styling for things inside the main table menu */
+#rowAppend {
+	padding: 0px;
+}
+
+#rowAppendNum {
+	width: 3em;
+}
+
 /* Styling for the floating menus that appear next to table rows */
 .table_menu_float {
 	display: none;

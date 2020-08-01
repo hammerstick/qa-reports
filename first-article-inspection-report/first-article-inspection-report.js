@@ -133,12 +133,15 @@ class Menu {
 	constructor(menuElem) {
 		this.menuElem = menuElem
 
-		/** All descendant button elements should be added to this Map */
+		/** All descendant <button> elements should be added to this Map */
 		this.buttons = new Map()
+
+		/** All descendant <input> elements go here */
+		this.inputs = new Map()
 	}
 
 	/**
-	 * Add all direct children button elements of the menu elements to the `this.buttons` Map.
+	 * Add all direct children <button> elements of menuElem to the `this.buttons` Map.
 	 * Each Map entry is keyed to the button's "id" attribute.
 	 */
 	regAllChildrenButtons() {
@@ -146,6 +149,18 @@ class Menu {
 			let elem = this.menuElem.children[i]
 			if (elem.type == "button") {
 				this.buttons.set(elem.id, elem)
+			}
+		}
+	}
+
+	/** Add all direct children <input> elements of menuElem to the `this.inputs` Map.
+	 * Each Map entry is keyed to the input's "id" attribute.
+	 */
+	regAllChildrenInputs() {
+		for (let i = 0; i < this.menuElem.children.length; i++) {
+			let elem = this.menuElem.children[i]
+			if (elem.nodeName == "INPUT") {
+				this.inputs.set(elem.id, elem)
 			}
 		}
 	}
@@ -327,11 +342,14 @@ window.onload = function() {
 	/* Set up main table menu that appears below the main table */
 	const table_menu = new Menu(document.getElementById("table_main_menu"))
 	table_menu.regAllChildrenButtons()
+	table_menu.regAllChildrenInputs()
 
 	// "Insert new row" button processing
 	table_menu.buttons.get("rowAppend").addEventListener( "click", function() {
+		let append_this_many_rows = table_menu.inputs.get("rowAppendNum").value
+
 		table_main.appendRows("body",
-		                      1,
+		                      append_this_many_rows,
 		                      table_main.heads.get("head").rows[0].cells.length,
 		                      rowFunc,
 		                      genArray(table_main_cells, Infinity) )
