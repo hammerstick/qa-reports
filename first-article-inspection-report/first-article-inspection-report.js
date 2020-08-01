@@ -141,8 +141,8 @@ class TableMenu {
 	}
 
 	/**
-	 * Add all direct children button elements of the menu elements to the `buttons` Map.
-	 * Each Map entry is keyed to the button's HTML ID.
+	 * Add all direct children button elements of the menu elements to the `this.buttons` Map.
+	 * Each Map entry is keyed to the button's "id" attribute.
 	 */
 	regAllChildrenButtons() {
 		for (let i = 0; i < this.menuElem.children.length; i++) {
