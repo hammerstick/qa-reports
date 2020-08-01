@@ -90,7 +90,7 @@ class TableMenu {
 	 * Create an object that represents a menu that contains useful functions for table manipulations (e.g. a div containing buttons that add and remove rows in a table).
 	 *
 	 * TableMenu.buttons {Map}:
-	 * On class instantiation, all `<button>` HTML objects will be added to the `this.buttons` map and are keyed by the HTML ID of the button.
+	 * On class instantiation, all existing `<button>` HTML objects will be added to the `this.buttons` map and are keyed by the HTML ID of the button.
 	 *
 	 *
 	 * @param {object} menuElem - DOM element that contains the menu.
@@ -100,14 +100,14 @@ class TableMenu {
 		this.menuElem = menuElem
 		this.buttons = new Map()
 
-		this.addAllChildrenButtons()
+		this.regAllChildrenButtons()
 	}
 
 	/**
 	 * Add all direct children button elements of the menu elements to the `buttons` Map.
 	 * Each Map entry is keyed to the button's HTML ID.
 	 */
-	addAllChildrenButtons() {
+	regAllChildrenButtons() {
 		for (let i = 0; i < this.menuElem.children.length; i++) {
 			let elem = this.menuElem.children[i]
 			if (elem.type == "button") {
