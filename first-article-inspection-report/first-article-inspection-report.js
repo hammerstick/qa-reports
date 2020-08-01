@@ -54,23 +54,26 @@ class Table {
 	 * @param {object} tableBodyKey - New rows will be append to the table body with this key name in the `bodies` Map.
 	 * @param {number} numRows - The number of rows to append.
 	 * @param {number} numCols - The number of columns in a row.
+	 * @param {Function} [rowFunc = undefined] - After a row is create, this function is called as `rowFunc(rowElem)`, where `rowElem` is the row DOM element.
 	 * @param {Generator|string|number} [cellHTML = ""] - Each new cell will have this HTML text. If this is a string, all cell contents will contain this same string. If this is a Generator, each cell's contents will be populated from what the Generator yields.
 	 */
-	appendRows(tableBodyKey, numRows, numCols, cellHTML = "") {
+	appendRows(tableBodyKey, numRows, numCols, rowFunc=undefined, cellHTML = "") {
 		let newrow;
 		let newcell;
 		for (let i = 0; i < numRows; i++) {
-			newrow = this.bodies.get(tableBodyKey).insertRow(-1);
+			newrow = this.bodies.get(tableBodyKey).insertRow(-1)
 			for (var j = 0; j < numCols; j++) {
 
-				newcell = newrow.insertCell(-1); // Inserting from end looks more intuitive then inserting from beginning
+				newcell = newrow.insertCell(-1) // Inserting from end looks more intuitive then inserting from beginning
 				if (typeof(cellHTML.next) == "function") { // If `cellHTML` is a generator...
-					newcell.innerHTML = cellHTML.next().value;
+					newcell.innerHTML = cellHTML.next().value
 				} else { // Otherwise, assume the `cellHTML` is a string or number
-					newcell.innerHTML = cellHTML;
+					newcell.innerHTML = cellHTML
 				}
 
 			}
+			if (rowFunc)
+				rowFunc(newrow)
 		}
 	}
 
@@ -262,6 +265,34 @@ let table_main_cells = [
                        "<label><input type=\"text\" class=\"insptool\" ></input></label>"
                        ]
 
+/**
+ * Add a new floating menu as a child to a row in a table.
+ * This function is designed for use as an argument of `Table.appendRows`
+ * such that this function is called every time a new row is added to the table.
+ */
+function addFloatingMenuToRow(row) {
+	let table_menu_elem = document.createElement("div")
+	table_menu_elem.classList.add("table_menu_float")
+	table_menu_elem.classList.add("no-print")
+
+	// Put a "Delete row" button in the menu
+	let row_delete_button = document.createElement("button")
+	row_delete_button.type = "button"
+	row_delete_button.classList.add("rowDelete")
+	row_delete_button.textContent = "Delete row"
+	row_delete_button.addEventListener("click", function() {
+		row.parentNode.removeChild(row)
+		table_main.serialNumberCol("body", 0, 1)
+	})
+	table_menu_elem.append(row_delete_button)
+
+	let table_menu = new TableMenu(table_menu_elem)
+	table_menu.regAllChildrenButtons()
+
+	row.append(table_menu_elem)
+
+}
+
 window.onload = function() {
 
 	table_main = new Table(document.getElementById("table_main"))
@@ -272,6 +303,7 @@ window.onload = function() {
 	table_main.appendRows("body",
 	                      rowNumInitial,
 	                      table_main.heads.get("head").rows[0].cells.length,
+	                      addFloatingMenuToRow,
 	                      genArray(table_main_cells, Infinity)
 	                      )
 
@@ -288,6 +320,7 @@ window.onload = function() {
 		table_main.appendRows("body",
 		                      1,
 		                      table_main.heads.get("head").rows[0].cells.length,
+		                      addFloatingMenuToRow,
 		                      genArray(table_main_cells, Infinity) )
 		table_main.serialNumberCol("body", 0, 1)
 		} )
@@ -303,23 +336,4 @@ window.onload = function() {
 
 	})
 
-	/* For every row, insert a floating menu that appears when hovering over a row. */
-	for (let row of table_main.bodies.get("body").rows) {
-		let tableMenuFloatElem = document.createElement("div")
-		tableMenuFloatElem.classList.add("table_menu_float")
-		tableMenuFloatElem.classList.add("no-print")
-
-		let rowDeleteButton = document.createElement("button")
-		rowDeleteButton.type = "button"
-		rowDeleteButton.classList.add("rowDelete")
-		rowDeleteButton.textContent = "Delete Row"
-		rowDeleteButton.addEventListener("click", function() {
-			row.parentNode.removeChild(row)
-			table_main.serialNumberCol("body", 0, 1)
-			})
-
-		tableMenuFloatElem.append(rowDeleteButton)
-
-		row.appendChild(tableMenuFloatElem)
-	}
 }
