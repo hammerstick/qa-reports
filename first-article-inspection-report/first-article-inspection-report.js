@@ -5,80 +5,116 @@
  */
 const rowNumInitial = 28
 
+
 /* ******************** */
-// Table functions
+// Table class
 /* ******************** */
 
-/**
- * Append some number of rows to a table.
- *
- * The HTML of the cells of the new rows can be specified.
- *
- * @param {object} tableBody - A reference to the table body element that will have rows appended.
- * @param {number} numRows - The number of rows to append.
- * @param {number} numCols - The number of columns in a row.
- * @param {Generator|string|number} [cellHTML = ""] - Each new cell will have this HTML text. If this is a string, all cell contents will contain this same string. If this is a Generator, each cell's contents will be populated from what the Generator yields.
- */
-function tableAppendRows(tableBody, numRows, numCols, cellHTML = "") {
-	let newrow;
-	let newcell;
-	for (let i = 0; i < numRows; i++) {
-		newrow = tableBody.insertRow(-1);
-		for (var j = 0; j < numCols; j++) {
+/** Class representing a table. */
+class Table {
+	/**
+	 * Create an object that represents a table.
+	 *
+	 * @param {object} tableElem - <table> DOM element
+	 */
+	constructor(tableElem) {
+		/** <table> DOM element */
+		this.tableElem = tableElem
 
-			newcell = newrow.insertCell(-1); // Inserting from end looks more intuitive then inserting from beginning
-			if (typeof(cellHTML.next) == "function") { // If `cellHTML` is a generator...
-				newcell.innerHTML = cellHTML.next().value;
-			} else { // Otherwise, assume the `cellHTML` is a string or number
-				newcell.innerHTML = cellHTML;
+		/** Heads of the table (<thead> DOM elements) are stored in this Map */
+		this.heads = new Map()
+
+		/** Bodies of the table (<tbody> DOM elements) are stored in this Map */
+		this.bodies = new Map()
+	}
+
+	/**
+	 * Register a <thead> DOM element to the class instance's Map of <thead> elements.
+	 * @param {object} headElem - The <thead> DOM element to register
+	 * @param {*} keyName - The key to use for this <thead> element in the Map
+	 */
+	regHead (headElem, keyName) {
+		this.heads.set(keyName, headElem)
+	}
+
+	/**
+	 * Register a <tbody> DOM element to the class instance's Map of <tbody> elements.
+	 * @param {object} bodyElem - The <tbody> DOM element to register
+	 * @param {*} keyName - The key to use for this <tbody> element in the Map
+	 */
+	regBody (bodyElem, keyName) {
+		this.bodies.set(keyName, bodyElem)
+	}
+
+	/**
+	 * Append some number of new rows to a table body.
+	 *
+	 * The HTML of the cells of the new rows can be specified.
+	 *
+	 * @param {object} tableBodyKey - New rows will be append to the table body with this key name in the `bodies` Map.
+	 * @param {number} numRows - The number of rows to append.
+	 * @param {number} numCols - The number of columns in a row.
+	 * @param {Generator|string|number} [cellHTML = ""] - Each new cell will have this HTML text. If this is a string, all cell contents will contain this same string. If this is a Generator, each cell's contents will be populated from what the Generator yields.
+	 */
+	appendRows(tableBodyKey, numRows, numCols, cellHTML = "") {
+		let newrow;
+		let newcell;
+		for (let i = 0; i < numRows; i++) {
+			newrow = this.bodies.get(tableBodyKey).insertRow(-1);
+			for (var j = 0; j < numCols; j++) {
+
+				newcell = newrow.insertCell(-1); // Inserting from end looks more intuitive then inserting from beginning
+				if (typeof(cellHTML.next) == "function") { // If `cellHTML` is a generator...
+					newcell.innerHTML = cellHTML.next().value;
+				} else { // Otherwise, assume the `cellHTML` is a string or number
+					newcell.innerHTML = cellHTML;
+				}
+
 			}
-
 		}
 	}
-}
 
-/**
- * Delete a single row or a group of rows from a table body.
- *
- * @param {object} tableBody - A reference to the table body element
- * @param {Number|Number[]} rowDelete - Single number or Array of the row index numbers to delete from the table
- */
-function tableDeleteRows(tableBody, rowDelete) {
-	let rowsArray = []
+	/**
+	 * Delete a single row or a group of rows from a table body.
+	 *
+	 * @param {object} bodyKey - A reference to the table body element
+	 * @param {Number|Number[]} rowDelete - Single number or Array of the row index numbers to delete from the table
+	 */
+	deleteRows(bodyKey, rowDelete) {
+		let rowsArray = []
 
-	if (typeof(rowDelete) === "number") {
-		rowsArray = [rowDelete]
-	} else if (Array.isArray(rowDelete)) {
-		rowsArray = rowDelete
-	} else {
-		throw new InvalidArgumentException(`Argument is of invalid type`)
+		if (typeof(rowDelete) === "number") {
+			rowsArray = [rowDelete]
+		} else if (Array.isArray(rowDelete)) {
+			rowsArray = rowDelete
+		} else {
+			throw new InvalidArgumentException(`Argument is of invalid type`)
+		}
+
+		for (let rowIndex of rowsArray) {
+			this.bodies.get(bodyKey).deleteRow(rowIndex)
+		}
 	}
 
-	for (let rowIndex of rowsArray) {
-		tableBody.deleteRow(rowIndex)
+	/**
+	 * Fills a column of cells in a table body with consecutive numbers.
+	 *
+	 * @param {object} bodyKey - The key of the table body element
+	 * @param {number} colIndex - The index number of the column in the table element.
+	 * @param {number} [start = 0] - The auto-number will begin at this number.
+	 */
+	serialNumberCol(bodyKey, colIndex, start = 0) {
+		let tElem = this.bodies.get(bodyKey)
+		let numRows = tElem.rows.length;
+
+		let numGen = genArray(range(start,numRows+1))
+
+		for (let row of tElem.rows) {
+			row.cells[colIndex].textContent = numGen.next().value
+		}
 	}
+
 }
-
-/**
- * Fills a column of cells in a table with consecutive numbers.
- *
- *
- * @param {object} tElem - A reference to the HTML tbody or thead element.
- * @param {number} colIndex - The index number of the column in the table element.
- * @param {number} [start = 0] - The auto-number will begin at this number.
- */
-function autoNumberCol(tElem, colIndex, start = 0) {
-	let numRows = tElem.rows.length;
-
-	let numGen = genArray(range(start,numRows+1));
-
-	for (let row of tElem.rows) {
-		row.cells[colIndex].textContent = numGen.next().value;
-	}
-}
-
-
-
 
 /* ******************** */
 // TableMenu class
@@ -230,27 +266,31 @@ let table_main_cells = [
 
 window.onload = function() {
 
-	const table_main = document.getElementById("table_main")
-	const table_main_body = table_main.getElementsByTagName("tbody")[0]
+	table_main = new Table(document.getElementById("table_main"))
+	table_main.regHead(document.getElementById("table_main").tHead, "head")
+	table_main.regBody(document.getElementById("table_main").getElementsByTagName("tbody")[0], "body")
 
 	// Initially insert approximately enough rows in the main table to fill a page if printed
-	tableAppendRows(table_main_body,
-	                rowNumInitial,
-	                table_main.tHead.rows[0].cells.length,
-	                genArray(table_main_cells, Infinity)
-	                );
+	table_main.appendRows("body",
+	                      rowNumInitial,
+	                      table_main.heads.get("head").rows[0].cells.length,
+	                      genArray(table_main_cells, Infinity)
+	                      )
 
 	// Auto-number all existing rows.
 	// The first row is numbered 1 (instead of 0) because 1-indexing is more intuitive to non-programmers.
-	autoNumberCol(table_main_body, 0, 1);
+	table_main.serialNumberCol("body", 0, 1)
 
 	/* Set up main table menu that appears below the main table */
-	const table_menu = new TableMenu(document.getElementById("table_main_menu"));
+	const table_menu = new TableMenu(document.getElementById("table_main_menu"))
 
 	// "Insert new row" button processing
 	table_menu.buttons.get("rowAppend").addEventListener( "click", function() {
-		tableAppendRows( table_main_body,1,table_main.tHead.rows[0].cells.length,genArray(table_main_cells, Infinity) )
-		autoNumberCol(table_main_body, 0, 1)
+		table_main.appendRows("body",
+		                      1,
+		                      table_main.heads.get("head").rows[0].cells.length,
+		                      genArray(table_main_cells, Infinity) )
+		table_main.serialNumberCol("body", 0, 1)
 		} )
 
 	// "Parse input text" button processing
@@ -265,7 +305,7 @@ window.onload = function() {
 	})
 
 	/* For every row, insert a floating menu that appears when hovering over a row. */
-	for (let row of table_main_body.rows) {
+	for (let row of table_main.bodies.get("body").rows) {
 		let tableMenuFloatElem = document.createElement("div")
 		tableMenuFloatElem.classList.add("table_menu_float")
 		tableMenuFloatElem.classList.add("no-print")
@@ -276,7 +316,7 @@ window.onload = function() {
 		rowDeleteButton.textContent = "Delete Row"
 		rowDeleteButton.addEventListener("click", function() {
 			row.parentNode.removeChild(row)
-			autoNumberCol(table_main_body, 0, 1)
+			table_main.serialNumberCol("body", 0, 1)
 			})
 
 		tableMenuFloatElem.append(rowDeleteButton)
