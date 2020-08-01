@@ -267,8 +267,11 @@ let table_main_cells = [
 
 /**
  * Add a new floating menu as a child to a row in a table.
+ *
  * This function is designed for use as an argument of `Table.appendRows`
  * such that this function is called every time a new row is added to the table.
+ *
+ * @param {object} row - The table row DOM element that will have a child menu appended.
  */
 function addFloatingMenuToRow(row) {
 	let table_menu_elem = document.createElement("div")
@@ -293,6 +296,39 @@ function addFloatingMenuToRow(row) {
 
 }
 
+/**
+ * Replace the text in all cells of a table row according to a Map,
+ * 	when the text's container blurs (loses focus).
+ * 	Only the cells matching CSS selector "input[type=text]" are affected.
+ *
+ * This function is designed for use as an argument of `Table.appendRows`
+ * such that this function is called every time a new row is added to the table.
+ *
+ * @param {object} row - The table row DOM element holding children nodes with 'type=text' attribute.
+ */
+function parseCellText(row) {
+	let typeTextNodes = row.querySelectorAll("input[type=text]")
+	for (let node of typeTextNodes) {
+		node.addEventListener("blur", function() {
+			node.value = replaceSubstringMap(node.value, mathMap)
+		})
+	}
+}
+
+/**
+ * This function simply runs other functions that should be called on rows in a table.
+ *
+ * This function is designed for use as an argument of `Table.appendRows`
+ * such that this function is called every time a new row is added to the table.
+ *
+ * @param {object} row - The table row DOM element passed to the other functions
+ */
+
+function rowFunc(row) {
+	addFloatingMenuToRow(row)
+	parseCellText(row)
+}
+
 window.onload = function() {
 
 	table_main = new Table(document.getElementById("table_main"))
@@ -303,11 +339,11 @@ window.onload = function() {
 	table_main.appendRows("body",
 	                      rowNumInitial,
 	                      table_main.heads.get("head").rows[0].cells.length,
-	                      addFloatingMenuToRow,
+	                      rowFunc,
 	                      genArray(table_main_cells, Infinity)
 	                      )
 
-	// Auto-number all existing rows.
+	// Number all existing rows.
 	// The first row is numbered 1 (instead of 0) because 1-indexing is more intuitive to non-programmers.
 	table_main.serialNumberCol("body", 0, 1)
 
@@ -320,20 +356,9 @@ window.onload = function() {
 		table_main.appendRows("body",
 		                      1,
 		                      table_main.heads.get("head").rows[0].cells.length,
-		                      addFloatingMenuToRow,
+		                      rowFunc,
 		                      genArray(table_main_cells, Infinity) )
 		table_main.serialNumberCol("body", 0, 1)
 		} )
-
-	// "Parse input text" button processing
-	table_menu.buttons.get("parseInputText").addEventListener("click", function() {
-		// This variable needs to be rebuilt every time this function is called
-		// because `querySelectorAll` returns a static view, not a live view.
-		let inputTextAll = document.querySelectorAll("[type=text]")
-		for (let node of inputTextAll) {
-			node.value = replaceSubstringMap(node.value, mathMap)
-		}
-
-	})
 
 }
