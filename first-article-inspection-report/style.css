@@ -211,18 +211,18 @@ tr:hover .table_menu_float {
 
 	height: 200px;
 	width: 10em;
-	top: 0px;
-	left: 0px;
+	top: 10px;
+	left: 10px;
 }
 
-/* Escapted text table */
+/* Escaped text table */
 #info_escaped_text {
 	border-collapse: collapse;
-	background-color: white
+	background-color: white;
 }
 
 #info_escaped_text td {
-	padding: 2px;
+	padding: 2px 10px 2px;
 }
 
 #info_escaped_text tr:nth-child(even) {
