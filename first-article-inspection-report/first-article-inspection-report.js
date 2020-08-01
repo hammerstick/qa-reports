@@ -91,7 +91,7 @@ class Table {
 		} else if (Array.isArray(rowDelete)) {
 			rowsArray = rowDelete
 		} else {
-			throw new InvalidArgumentException(`Argument is of invalid type`)
+			throw new TypeError(`Argument is of invalid type`)
 		}
 
 		for (let rowIndex of rowsArray) {
@@ -120,23 +120,20 @@ class Table {
 }
 
 /* ******************** */
-// TableMenu class
+// Menu class
 /* ******************** */
 
-/** Class representing a menu of things that modify a table */
-class TableMenu {
+/** Class representing a menu of things */
+class Menu {
 	/**
-	 * Create an object that represents a menu that contains useful functions for table manipulations (e.g. a div containing buttons that add and remove rows in a table).
-	 *
-	 * TableMenu.buttons {Map}:
-	 * On class instantiation, all existing `<button>` HTML objects will be added to the `this.buttons` map and are keyed by the HTML ID of the button.
-	 *
+	 * Create an object that represents a menu,.
 	 *
 	 * @param {object} menuElem - DOM element that contains the menu.
-	 *
 	 */
 	constructor(menuElem) {
 		this.menuElem = menuElem
+
+		/** All descendant button elements should be added to this Map */
 		this.buttons = new Map()
 	}
 
@@ -210,26 +207,6 @@ function range(start, end, step = 1) {
 	return [...Array(Math.floor( (end-start)/step )).keys()].map(x => step * x + start);
 }
 
-/* ******************** */
-// Exceptions definitions
-/* ******************** */
-
-let errorProto = Object.create(Error.prototype)
-
-// `InvalidArgumentException` taken from `https://stackoverflow.com/a/27724419`
-function InvalidArgumentException(message) {
-    this.message = message
-    // Use V8's native method if available, otherwise fallback
-    if ("captureStackTrace" in Error)
-        Error.captureStackTrace(this, InvalidArgumentException)
-    else
-        this.stack = (new Error()).stack
-}
-
-InvalidArgumentException.prototype = errorProto;
-InvalidArgumentException.prototype.name = "InvalidArgumentException"
-InvalidArgumentException.prototype.constructor = InvalidArgumentException
-
 
 /* ******************** */
 // Main
@@ -289,7 +266,7 @@ function addFloatingMenuToRow(row) {
 	})
 	table_menu_elem.append(row_delete_button)
 
-	let table_menu = new TableMenu(table_menu_elem)
+	let table_menu = new Menu(table_menu_elem)
 	table_menu.regAllChildrenButtons()
 
 	row.append(table_menu_elem)
@@ -348,7 +325,7 @@ window.onload = function() {
 	table_main.serialNumberCol("body", 0, 1)
 
 	/* Set up main table menu that appears below the main table */
-	const table_menu = new TableMenu(document.getElementById("table_main_menu"))
+	const table_menu = new Menu(document.getElementById("table_main_menu"))
 	table_menu.regAllChildrenButtons()
 
 	// "Insert new row" button processing
