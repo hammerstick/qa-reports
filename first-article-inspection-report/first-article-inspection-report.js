@@ -245,7 +245,14 @@ mathMap.set("\\c\\","○")
 mathMap.set("\\ne2\\","⌰")
 mathMap.set("\\ne\\","↗")
 
-
+// The row of the table containing part information (part number, part description, etc.) will contain these cells
+let table_part_info_cells = [
+                             "<label><input type=\"text\" class=\"partnum\" ></input></label>",
+					         "<label><input type=\"text\" class=\"partrev\" ></input></label>",
+					         "<label><input type=\"text\" class=\"partdesc\" ></input></label>",
+					         "<label><input type=\"text\" class=\"partpo\" ></input></label>",
+					         "<label><input type=\"text\" class=\"partserial\" ></input></label>"
+                            ]
 
 // Each row of the main table will contain these HTML lines in the cells, in this order.
 let table_main_cells = [
@@ -322,6 +329,17 @@ function rowFunc(row) {
 }
 
 window.onload = function() {
+	table_part_info = new Table(document.getElementById("table_part_info"))
+	table_part_info.regHead(document.getElementById("table_part_info").tHead, "head")
+	table_part_info.regBody(document.getElementById("table_part_info").getElementsByTagName("tbody")[0], "body")
+
+	table_part_info.appendRows("body",
+	                           1,
+	                           table_part_info.heads.get("head").rows[0].cells.length,
+	                           parseCellText,
+	                           genArray(table_part_info_cells, Infinity)
+	                           )
+
 
 	table_main = new Table(document.getElementById("table_main"))
 	table_main.regHead(document.getElementById("table_main").tHead, "head")
