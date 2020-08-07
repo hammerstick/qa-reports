@@ -184,13 +184,14 @@ input {
 
 /* Styling for the floating menus that appear next to table rows */
 .table_menu_float {
-	display: none;
+	visibility: hidden;
+	display: flex;
 	position: absolute;
 	border: 1px solid green;
 }
 
 tr:hover .table_menu_float {
-	display: flex;
+	visibility: visible;
 }
 
 /* Comment text box */
