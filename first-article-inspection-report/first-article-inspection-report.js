@@ -110,7 +110,7 @@ class Table {
 		let tElem = this.bodies.get(bodyKey)
 		let numRows = tElem.rows.length;
 
-		let numGen = genArray(range(start,numRows+1))
+		let numGen = arrayToGenerator(range(start,numRows+1))
 
 		for (let row of tElem.rows) {
 			row.cells[colIndex].textContent = numGen.next().value
@@ -204,7 +204,7 @@ function replaceSubstringMap(theString, mapper) {
  * @param {number} [loops = 1] - Number of times to loop through the array. May be Infinity.
  * @yields {object} The next element in the array.
  */
-function* genArray(the_array, loops = 1) {
+function* arrayToGenerator(the_array, loops = 1) {
 	for (let i = 0; i < loops; i++) {
 		for (let elem of the_array) {
 			yield elem
@@ -366,7 +366,7 @@ window.onload = function() {
 	                           1,
 	                           table_part_info.heads.get("head").rows[0].cells.length,
 	                           parseCellText,
-	                           genArray(table_part_info_cells, Infinity)
+	                           arrayToGenerator(table_part_info_cells, Infinity)
 	                           )
 
 
@@ -379,7 +379,7 @@ window.onload = function() {
 	                      rowNumInitial,
 	                      table_main.heads.get("head").rows[0].cells.length,
 	                      rowFunc,
-	                      genArray(table_main_cells, Infinity)
+	                      arrayToGenerator(table_main_cells, Infinity)
 	                      )
 
 	// Number all existing rows.
@@ -399,7 +399,7 @@ window.onload = function() {
 		                      append_this_many_rows,
 		                      table_main.heads.get("head").rows[0].cells.length,
 		                      rowFunc,
-		                      genArray(table_main_cells, Infinity) )
+		                      arrayToGenerator(table_main_cells, Infinity) )
 
 		table_main.serialNumberCol("body", 0, 1)
 		} )
