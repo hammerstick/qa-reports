@@ -126,7 +126,11 @@ class Table {
 /** Class representing a menu of things */
 class Menu {
 	/**
-	 * Create an object that represents a menu,.
+	 * Create an object that represents a menu.
+	 *
+	 * "input" and "button" DOM elements are to be 'registered' in Maps that are created in this constructor.
+	 *
+	 * The Maps are not automatically populated by any existing DOM elements when this constructor is called. Call the methods `regAllChildrenButtons()` and `regAllChildrenInputs()` to do so.
 	 *
 	 * @param {object} menuElem - DOM element that contains the menu.
 	 */
