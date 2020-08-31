@@ -222,6 +222,23 @@ function range(start, end, step = 1) {
 	return [...Array(Math.floor( (end-start)/step )).keys()].map(x => step * x + start);
 }
 
+/**
+ * Yield the keys and values of a Map one by one, in the pattern:
+ *
+ * key0, value0, key1, value1, ... , keyN, valueN
+ *
+ * where N is the number of key-value pairs in the map.
+ *
+ * @param {Map} theMap - Map whose keys and values will be yielded
+ * @yields {object} The next key or value in `theMap`
+ */
+function* mapToGenerator(theMap) {
+	for (let [key, value] of theMap.entries()) {
+		yield key
+		yield value
+	}
+}
+
 
 /* ******************** */
 // Main
@@ -388,19 +405,11 @@ window.onload = function() {
 	info_escaped_text.regHead(info_escaped_text.tableElem.getElementsByTagName("thead")[0], "head")
 	info_escaped_text.regBody(info_escaped_text.tableElem.getElementsByTagName("tbody")[0], "body")
 
-	let mathMapToGen = function*() {
-		for (let [key, value] of mathMap.entries()) {
-			yield key
-			yield value
-		}
-
-	}
-
 	info_escaped_text.appendRows("body",
 	                             mathMap.size,
 	                             info_escaped_text.heads.get("head").rows[0].cells.length,
 	                             null,
-	                             mathMapToGen()
+	                             mapToGenerator(mathMap)
 	                            )
 
 }
