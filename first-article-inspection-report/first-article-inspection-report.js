@@ -53,7 +53,7 @@ class Table {
 	 *
 	 * @param {object} tableBodyKey - New rows will be append to the table body with this key name in the `bodies` Map.
 	 * @param {number} numRows - The number of rows to append.
-	 * @param {number} numCols - The number of columns in a row.
+	 * @param {number} numCols - The number of columns in the rows to append.
 	 * @param {?Function} rowFunc - After a row is create, this function is called as `rowFunc(rowElem)`, where `rowElem` is the row DOM element.
 	 * @param {Generator|string|number} [cellHTML = ""] - Each new cell will have this HTML text. If this is a string, all cell contents will contain this same string. If this is a Generator, each cell's contents will be populated from what the Generator yields.
 	 */
@@ -328,7 +328,7 @@ function parseInputCellsInRow(row) {
 
 function rowFunc(row) {
 	addFloatingMenuToRow(row)
-	parseCellsInRow(row)
+	parseInputCellsInRow(row)
 }
 
 window.onload = function() {
@@ -339,7 +339,7 @@ window.onload = function() {
 	table_part_info.appendRows("body",
 	                           1,
 	                           table_part_info.heads.get("head").rows[0].cells.length,
-	                           parseCellsInRow,
+	                           parseInputCellsInRow,
 	                           arrayToGenerator(table_part_info_cells, Infinity)
 	                           )
 
