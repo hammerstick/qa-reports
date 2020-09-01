@@ -308,7 +308,7 @@ function addFloatingMenuToRow(row) {
  *
  * @param {object} row - The table row DOM element holding children nodes with 'type=text' attribute.
  */
-function parseCellText(row) {
+function parseInputCellsInRow(row) {
 	let typeTextNodes = row.querySelectorAll("input[type=text]")
 	for (let node of typeTextNodes) {
 		node.addEventListener("blur", function() {
@@ -328,7 +328,7 @@ function parseCellText(row) {
 
 function rowFunc(row) {
 	addFloatingMenuToRow(row)
-	parseCellText(row)
+	parseCellsInRow(row)
 }
 
 window.onload = function() {
@@ -339,7 +339,7 @@ window.onload = function() {
 	table_part_info.appendRows("body",
 	                           1,
 	                           table_part_info.heads.get("head").rows[0].cells.length,
-	                           parseCellText,
+	                           parseCellsInRow,
 	                           arrayToGenerator(table_part_info_cells, Infinity)
 	                           )
 
