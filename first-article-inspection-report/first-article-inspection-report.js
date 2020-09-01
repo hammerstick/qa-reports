@@ -1,3 +1,7 @@
+/**
+ * @file Dynamic content for the First Article Inspection Report.
+ */
+
 "use strict";
 
 

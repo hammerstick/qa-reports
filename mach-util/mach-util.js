@@ -1,3 +1,7 @@
+/**
+ * @file Library of several classes and functions useful for documents used in machining.
+ */
+
 "use strict";
 
 /* ******************** */
