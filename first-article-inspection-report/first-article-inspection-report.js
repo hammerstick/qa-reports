@@ -248,32 +248,6 @@ function* mapToGenerator(theMap) {
 // Main
 /* ******************** */
 
-// This map is used to allow the user to input math symbols commonly used in inspection reports.
-let mathMap = new Map()
-mathMap.set("\\pm\\","±")
-mathMap.set("\\deg\\","°")
-mathMap.set("\\stra\\","⏤")
-mathMap.set("\\symm\\","⌯")
-mathMap.set("\\ang\\","∠")
-mathMap.set("\\perp\\","⊥")
-mathMap.set("\\parag\\","▱")
-mathMap.set("\\paral\\","∥")
-mathMap.set("\\dia\\","⌀")
-mathMap.set("\\c\\","○")
-mathMap.set("\\cc\\","◎")
-mathMap.set("\\ccros\\","⌖")
-mathMap.set("\\clin\\","⌭")
-mathMap.set("\\carc\\","⌒")
-mathMap.set("\\chalf\\","⌓")
-mathMap.set("\\ne2\\","⌰")
-mathMap.set("\\ne\\","↗")
-mathMap.set("\\cF\\","Ⓕ")
-mathMap.set("\\cL\\","Ⓛ")
-mathMap.set("\\cM\\","Ⓜ")
-mathMap.set("\\cP\\","Ⓟ")
-mathMap.set("\\cT\\","Ⓣ")
-mathMap.set("\\cU\\","Ⓤ")
-
 // The row of the table containing part information (part number, part description, etc.) will contain these cells
 let table_part_info_cells = [
                              "<label><input type=\"text\" class=\"partnum\" ></input></label>",
