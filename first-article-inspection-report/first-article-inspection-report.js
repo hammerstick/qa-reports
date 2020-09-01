@@ -1,10 +1,5 @@
 "use strict";
 
-/** Initial number of rows in the main table.
- * This number should be set such that the page fits on a single letter-size page when printed.
- */
-const rowNumInitial = 28
-
 
 /* ******************** */
 // Table class
@@ -195,6 +190,20 @@ function replaceSubstringMap(theString, mapper) {
 /* ******************** */
 
 /**
+ * Create a "range" of numbers as an Array.
+ *
+ * This acts similarly to Python's `range()` function.
+ *
+ * @param {number} start - The Array will start with this number
+ * @param {number} end - The Array will stop at the number *right before* this number
+ * @param {number} [step = 1] - Consecutive elements have this difference
+ * @returns {Array} An Array of numbers beginning with `start`, with `step` step size, and ending before `end`
+ */
+function range(start, end, step = 1) {
+	return [...Array(Math.floor( (end-start)/step )).keys()].map(x => step * x + start);
+}
+
+/**
  * Create a Generator from an Array.
  *
  * The generator will loop through all elements of the array.
@@ -210,20 +219,6 @@ function* arrayToGenerator(the_array, loops = 1) {
 			yield elem
 		}
 	}
-}
-
-/**
- * Create a "range" of numbers as an Array.
- *
- * This acts similarly to Python's `range()` function.
- *
- * @param {number} start - The Array will start with this number
- * @param {number} end - The Array will stop at the number *right before* this number
- * @param {number} [step = 1] - Consecutive elements have this difference
- * @returns {Array} An Array of numbers beginning with `start`, with `step` step size, and ending before `end`
- */
-function range(start, end, step = 1) {
-	return [...Array(Math.floor( (end-start)/step )).keys()].map(x => step * x + start);
 }
 
 /**
@@ -243,10 +238,14 @@ function* mapToGenerator(theMap) {
 	}
 }
 
-
 /* ******************** */
 // Main
 /* ******************** */
+
+/** Initial number of rows in the main table.
+ * This number should be set such that the page fits on a single letter-size page when printed.
+ */
+const rowNumInitial = 28
 
 // The row of the table containing part information (part number, part description, etc.) will contain these cells
 let table_part_info_cells = [
