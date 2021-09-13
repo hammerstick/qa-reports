@@ -183,7 +183,7 @@ class Menu {
 function replaceSubstringMap(theString, mapper) {
 	let newString = theString
 	for (let [key, value] of mapper) {
-		newString = newString.replace(key, value)
+		newString = newString.replaceAll(key, value)
 	}
 	return newString
 }
