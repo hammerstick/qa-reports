@@ -70,8 +70,9 @@ class Table {
 				}
 
 			}
-			if (rowFunc)
+			if (rowFunc) {
 				rowFunc(newrow)
+			}
 		}
 	}
 
