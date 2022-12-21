@@ -49,7 +49,7 @@ class Table {
 	 *
 	 * The HTML of the cells of the new rows can be specified.
 	 *
-	 * @param {object} tableBodyKey - New rows will be append to the table body with this key name in the `bodies` Map.
+	 * @param {object} tableBodyKey - New rows will be appended to the table body with this key name in the `bodies` Map.
 	 * @param {number} numRows - The number of rows to append.
 	 * @param {number} numCols - The number of columns in the rows to append.
 	 * @param {?Function} rowFunc - After a row is create, this function is called as `rowFunc(rowElem)`, where `rowElem` is the row DOM element.
