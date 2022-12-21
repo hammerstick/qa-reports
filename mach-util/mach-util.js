@@ -60,7 +60,7 @@ class Table {
 		let newcell;
 		for (let i = 0; i < numRows; i++) {
 			newrow = this.bodies.get(tableBodyKey).insertRow(-1)
-			for (var j = 0; j < numCols; j++) {
+			for (let j = 0; j < numCols; j++) {
 
 				newcell = newrow.insertCell(-1) // Inserting from end looks more intuitive then inserting from beginning
 				if (typeof(cellHTML.next) == "function") { // If `cellHTML` is a generator...
