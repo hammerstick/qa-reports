@@ -18,6 +18,8 @@ mathMap.set("\\clin\\","⌭")
 mathMap.set("\\carc\\","⌒")
 mathMap.set("\\chalf\\","⌓")
 mathMap.set("\\depth\\","↧")
+mathMap.set("\\cs\\","⌵") // countersink
+mathMap.set("\\sq\\","□")
 mathMap.set("\\ne2\\","⌰")
 mathMap.set("\\ne\\","↗")
 mathMap.set("\\cb\\","⌴")
