@@ -24,6 +24,9 @@ class Table {
 
 		/** Bodies of the table (<tbody> DOM elements) are stored in this Map */
 		this.bodies = new Map()
+
+		/** Each entry in the Table is (also) stored in this database */
+		this.theMap = new TableMap()
 	}
 
 	/**
@@ -116,6 +119,18 @@ class Table {
 		}
 	}
 
+}
+
+/** This class is the database for Table objects, keeping track of all entries in the Table. */
+class TableMap {
+	/**
+	 * Create a datastore object for use with Table objects.
+	 *
+	 * Data is stored in a Map; each element represents a row in the Table.
+	 */
+	 constructor() {
+		 this.theMap = new Map()
+	 }
 }
 
 /* ******************** */
