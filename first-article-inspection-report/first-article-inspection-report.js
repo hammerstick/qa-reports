@@ -150,6 +150,11 @@ window.onload = function() {
 		e.preventDefault();
 
 		let delete_these_rows_input = table_menu.inputs.get('rowDeleteInput').value;
+
+		if (!delete_these_rows_input) {
+			// Do nothing if input is blank
+			return;
+		}
 		let rowsToDelete = [];
 
 		// Allow for deletion of multiple rows indicated by comma separation
@@ -185,8 +190,11 @@ window.onload = function() {
             table_main.deleteRows("body", rowIndex);
         }
 
+		// Clear the input box
+		table_menu.inputs.get('rowDeleteInput').value = '';
+
         // Renumber the remaining rows - comment in or out if needed
-        table_main.serialNumberCol("body", 0, 1);
+        // table_main.serialNumberCol("body", 0, 1);
     });
 
 	// Floating info box
