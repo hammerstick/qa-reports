@@ -93,12 +93,12 @@ function parseInputCellsInRow(row) {
  */
 
 function rowFunc(row) {
-	addFloatingMenuToRow(row)
+	// addFloatingMenuToRow(row)
 	parseInputCellsInRow(row)
 }
 
 window.onload = function() {
-	table_part_info = new Table(document.getElementById("table_part_info"))
+	let table_part_info = new Table(document.getElementById("table_part_info"))
 	table_part_info.regHead(document.getElementById("table_part_info").tHead, "head")
 	table_part_info.regBody(document.getElementById("table_part_info").getElementsByTagName("tbody")[0], "body")
 
@@ -110,7 +110,7 @@ window.onload = function() {
 	                           )
 
 
-	table_main = new Table(document.getElementById("table_main"))
+	let table_main = new Table(document.getElementById("table_main"))
 	table_main.regHead(document.getElementById("table_main").tHead, "head")
 	table_main.regBody(document.getElementById("table_main").getElementsByTagName("tbody")[0], "body")
 
@@ -143,6 +143,51 @@ window.onload = function() {
 
 		table_main.serialNumberCol("body", 0, 1)
 		} )
+
+	// "Delete row(s)" button
+	table_menu.buttons.get('rowDelete').addEventListener('click', function(e) {
+
+		e.preventDefault();
+
+		let delete_these_rows_input = table_menu.inputs.get('rowDeleteInput').value;
+		let rowsToDelete = [];
+
+		// Allow for deletion of multiple rows indicated by comma separation
+		let delete_range = delete_these_rows_input.split(',')
+
+		for (let range of delete_range) {
+		// Checking if input contains a hyphen, indicating a specified range of rows
+        if (range.includes('-')) {
+			// Split the range string into start and end values, and converting them to numbers
+            let [start, end] = range.split('-').map(Number);
+			// Make sure start and end values are in fact numbers
+            if (!isNaN(start) && !isNaN(end)) {
+                for (let i = start; i <= end; i++) {
+                    rowsToDelete.push(i - 1);
+                }
+            }
+        } else {
+			// For single number input deletion
+            let row = Number(range);
+            if (!isNaN(row)) {
+                rowsToDelete.push(row - 1);
+            }
+        }
+    }
+
+		// Sort the rows, no duplicate row number deletions
+		let uniqueRowsToDelete = rowsToDelete
+			.filter((value, index, arr) => arr.indexOf(value) === index)
+			.sort((a, b) => b - a); // Sort in descending order
+
+        // Delete rows from the bottom to avoid index issues
+        for (let rowIndex of uniqueRowsToDelete) {
+            table_main.deleteRows("body", rowIndex);
+        }
+
+        // Renumber the remaining rows - comment in or out if needed
+        table_main.serialNumberCol("body", 0, 1);
+    });
 
 	// Floating info box
 	let info_escaped_text = new Table(document.getElementById("info_escaped_text"))
