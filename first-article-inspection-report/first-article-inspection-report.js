@@ -80,8 +80,41 @@ function parseInputCellsInRow(row) {
 		node.addEventListener("blur", function() {
 			node.value = replaceSubstringMap(node.value, mathMap)
 		})
+
+		node.addEventListener('keydown', function(e) {
+			if (e.key === "Enter") {
+				e.preventDefault()
+
+				let nextInput = goToNextInput(node);
+				if (nextInput) {
+					nextInput.focus()
+				}
+			}
+		})
 	}
 }
+
+// Function to check if there's another input to go to using the 'Enter' key
+function goToNextInput(currentInput) {
+    let table = currentInput.closest('table');
+    let inputs = Array.from(table.querySelectorAll('input[type=text]'));
+    let currentIndex = inputs.indexOf(currentInput);
+
+    // Get the current row
+    let currentRow = currentInput.closest('tr');
+
+    for (let i = currentIndex + 1; i < inputs.length; i++) {
+        if (inputs[i].parentElement.cellIndex === currentInput.parentElement.cellIndex) {
+            let itemNumber = currentRow.rowIndex;
+            // console.log(`Currently viewing Item #${itemNumber}`);
+            return inputs[i];
+        }
+    }
+
+    return null;
+}
+
+
 
 /**
  * This function simply runs other functions that should be called on rows in a table.
@@ -94,6 +127,10 @@ function parseInputCellsInRow(row) {
 
 function rowFunc(row) {
 	// addFloatingMenuToRow(row)
+	const itemNumCell = row.cells[0].querySelector('.itemnum');
+    if (itemNumCell) {
+        itemNumCell.value = row.rowIndex;
+    }
 	parseInputCellsInRow(row)
 }
 
@@ -196,6 +233,53 @@ window.onload = function() {
         // Renumber the remaining rows - comment in or out if needed
         // table_main.serialNumberCol("body", 0, 1);
     });
+
+	// Function that exports this JS file to a JSON file
+	function exportToJson() {
+		// Collect data from part info table and also allows for blank inputs
+		const partInfoTable = document.getElementById("table_part_info");
+		const partInfoData = Array.from(partInfoTable.rows).slice(1).map(row => ({
+			partNum: row.cells[0].querySelector('.partnum') ? row.cells[0].querySelector('.partnum').value : '',
+			partRev: row.cells[1].querySelector('.partrev') ? row.cells[1].querySelector('.partrev').value : '',
+			partDesc: row.cells[2].querySelector('.partdesc') ? row.cells[2].querySelector('.partdesc').value : '',
+			partPO: row.cells[3].querySelector('.partpo') ? row.cells[3].querySelector('.partpo').value : '',
+			partSerial: row.cells[4].querySelector('.partserial') ? row.cells[4].querySelector('.partserial').value : '',
+		}));
+
+		// Collect data from main inspection table and also allows for blank inputs
+		const mainTable = document.getElementById("table_main");
+		const mainData = Array.from(mainTable.rows).slice(1).map(row => ({
+			itemNum: row.rowIndex,
+			pageNum: row.cells[1].querySelector('.pagenum') ? row.cells[1].querySelector('.pagenum').value : '',
+			location: row.cells[2].querySelector('.loc') ? row.cells[2].querySelector('.loc').value : '',
+			param: row.cells[3].querySelector('.param') ? row.cells[3].querySelector('.param').value : '',
+			actual: row.cells[4].querySelector('.actual') ? row.cells[4].querySelector('.actual').value : '',
+			inspTool: row.cells[5].querySelector('.insptool') ? row.cells[5].querySelector('.insptool').value : '',
+		}));
+
+		// JSON object
+		const jsonData = {
+			partInfo: partInfoData,
+			mainData: mainData,
+			comments: document.getElementById("commentTextBox") ? document.getElementById("commentTextBox").value : ''
+		};
+
+		const jsonString = JSON.stringify(jsonData, null, 2);
+
+		// Create a blob and download the file
+		const blob = new Blob([jsonString], { type: "application/json" });
+		const url = URL.createObjectURL(blob);
+
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = "first_article_inspection_report.json";
+		a.click();
+
+		URL.revokeObjectURL(url);
+	}
+
+	document.getElementById("exportToJson").addEventListener("click", exportToJson);
+
 
 	// Floating info box
 	let info_escaped_text = new Table(document.getElementById("info_escaped_text"))
