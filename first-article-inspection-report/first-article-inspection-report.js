@@ -181,58 +181,78 @@ window.onload = function() {
 		table_main.serialNumberCol("body", 0, 1)
 		} )
 
-	// "Delete row(s)" button
-	table_menu.buttons.get('rowDelete').addEventListener('click', function(e) {
 
+	// Delete row(s) button
+	table_menu.buttons.get('rowDelete').addEventListener('click', function(e) {
 		e.preventDefault();
 
-		let delete_these_rows_input = table_menu.inputs.get('rowDeleteInput').value;
+		let delete_these_rows_input = table_menu.inputs.get('rowDeleteInput').value.trim();
 
-		if (!delete_these_rows_input) {
-			// Do nothing if input is blank
-			return;
-		}
-		let rowsToDelete = [];
+		// Do nothing if input is blank
+		if (!delete_these_rows_input) return;
 
-		// Allow for deletion of multiple rows indicated by comma separation
-		let delete_range = delete_these_rows_input.split(',')
+		let itemNumbersToDelete = [];
+
+		// Deletion of multiple rows indicated by comma separation
+		let delete_range = delete_these_rows_input.split(',');
 
 		for (let range of delete_range) {
-		// Checking if input contains a hyphen, indicating a specified range of rows
-        if (range.includes('-')) {
-			// Split the range string into start and end values, and converting them to numbers
-            let [start, end] = range.split('-').map(Number);
-			// Make sure start and end values are in fact numbers
-            if (!isNaN(start) && !isNaN(end)) {
-                for (let i = start; i <= end; i++) {
-                    rowsToDelete.push(i - 1);
-                }
-            }
-        } else {
-			// For single number input deletion
-            let row = Number(range);
-            if (!isNaN(row)) {
-                rowsToDelete.push(row - 1);
-            }
-        }
-    }
+			// Checking if input contains a hyphen, indicating a specified range of rows based on item numbers
+			if (range.includes('-')) {
+				// Split the range string into start and end values, and converting them to numbers
+				let [start, end] = range.split('-').map(Number);
 
-		// Sort the rows, no duplicate row number deletions
-		let uniqueRowsToDelete = rowsToDelete
-			.filter((value, index, arr) => arr.indexOf(value) === index)
-			.sort((a, b) => b - a); // Sort in descending order
+				// Make sure start and end values are in fact numbers/integers
+				if (!isNaN(start) && !isNaN(end) && start > 0 && end > 0) {
+					for (let i = start; i <= end; i++) {
+						itemNumbersToDelete.push(i);
+					}
+				}
+			} else {
+				// For single number input deletion
+				let itemNumber = Number(range.trim());
+				if (!isNaN(itemNumber) && itemNumber > 0) {
+					itemNumbersToDelete.push(itemNumber);
+				}
+			}
+		}
 
-        // Delete rows from the bottom to avoid index issues
-        for (let rowIndex of uniqueRowsToDelete) {
-            table_main.deleteRows("body", rowIndex);
-        }
+		// Using a Set to store unique values, this makes sure that any duplicate values will not be considered/added, thus no duplicate row number deletions.
+		let uniqueItemNumbersToDelete = [...new Set(itemNumbersToDelete)].sort((a, b) => b - a);
 
-		// Clear the input box
+		let successfullyDeleted = [];
+
+		// Select all rows in the table body
+		const rows = document.querySelectorAll('#table_main tbody tr');
+
+		// Delete rows based on item number
+		uniqueItemNumbersToDelete.forEach((itemNumber) => {
+			// Find the row with the matching item number
+			let rowIndex = Array.from(rows).findIndex((row) => {
+				return Number(row.cells[0].textContent.trim()) === itemNumber;
+			});
+
+			// If the row exists, delete it
+			if (rowIndex !== -1) {
+				rows[rowIndex].remove();
+				successfullyDeleted.push(itemNumber);
+			} else {
+				console.error(`Item Number ${itemNumber} does not exist.`)
+			}
+		});
+
+		if(successfullyDeleted.length > 0) {
+			successfullyDeleted.sort((a, b) => a - b)
+			console.error(`Deleted Item Numbers: ${successfullyDeleted.join(', ')}`)
+		}
+
+		// Clear the input box after button click
 		table_menu.inputs.get('rowDeleteInput').value = '';
 
-        // Renumber the remaining rows - comment in or out if needed
-        // table_main.serialNumberCol("body", 0, 1);
-    });
+		// Comment in this line if you want to renumber rows
+		table_main.serialNumberCol("body", 0, 1);
+	});
+
 
 	// Function that exports this JS file to a JSON file
 	function exportToJson() {
