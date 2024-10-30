@@ -96,22 +96,22 @@ function parseInputCellsInRow(row) {
 
 // Function to check if there's another input to go to using the 'Enter' key
 function goToNextInput(currentInput) {
-    let table = currentInput.closest('table');
-    let inputs = Array.from(table.querySelectorAll('input[type=text]'));
-    let currentIndex = inputs.indexOf(currentInput);
+	let table = currentInput.closest('table');
+	let inputs = Array.from(table.querySelectorAll('input[type=text]'));
+	let currentIndex = inputs.indexOf(currentInput);
 
-    // Get the current row
-    let currentRow = currentInput.closest('tr');
+	// Get the current row
+	let currentRow = currentInput.closest('tr');
 
-    for (let i = currentIndex + 1; i < inputs.length; i++) {
-        if (inputs[i].parentElement.cellIndex === currentInput.parentElement.cellIndex) {
-            let itemNumber = currentRow.rowIndex;
-            // console.log(`Currently viewing Item #${itemNumber}`);
-            return inputs[i];
-        }
-    }
+	for (let i = currentIndex + 1; i < inputs.length; i++) {
+		if (inputs[i].parentElement.cellIndex === currentInput.parentElement.cellIndex) {
+			let itemNumber = currentRow.rowIndex;
+			// console.log(`Currently viewing Item #${itemNumber}`);
+			return inputs[i];
+		}
+	}
 
-    return null;
+	return null;
 }
 
 
@@ -128,9 +128,9 @@ function goToNextInput(currentInput) {
 function rowFunc(row) {
 	// addFloatingMenuToRow(row)
 	const itemNumCell = row.cells[0].querySelector('.itemnum');
-    if (itemNumCell) {
-        itemNumCell.value = row.rowIndex;
-    }
+	if (itemNumCell) {
+		itemNumCell.value = row.rowIndex;
+	}
 	parseInputCellsInRow(row)
 }
 
