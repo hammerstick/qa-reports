@@ -254,11 +254,20 @@ window.onload = function() {
 	});
 
 
+	//Function for the "Reason" checkboxes, to then add to the JSON object
+	function reasonCheckboxes() {
+		let reasons = {};
+		document.querySelectorAll('.reasoncheckbox').forEach((checkbox) => {
+			reasons[checkbox.id] = checkbox.checked;
+		});
+		return reasons;
+	}
+
 	// Function that exports this JS file to a JSON file
 	function exportToJson() {
 		// Collect data from part info table and also allows for blank inputs
-		const partInfoTable = document.getElementById("table_part_info");
-		const partInfoData = Array.from(partInfoTable.rows).slice(1).map(row => ({
+		let partInfoTable = document.getElementById("table_part_info");
+		let partInfoData = Array.from(partInfoTable.rows).slice(1).map(row => ({
 			partNum: row.cells[0].querySelector('.partnum') ? row.cells[0].querySelector('.partnum').value : '',
 			partRev: row.cells[1].querySelector('.partrev') ? row.cells[1].querySelector('.partrev').value : '',
 			partDesc: row.cells[2].querySelector('.partdesc') ? row.cells[2].querySelector('.partdesc').value : '',
@@ -267,8 +276,8 @@ window.onload = function() {
 		}));
 
 		// Collect data from main inspection table and also allows for blank inputs
-		const mainTable = document.getElementById("table_main");
-		const mainData = Array.from(mainTable.rows).slice(1).map(row => ({
+		let mainTable = document.getElementById("table_main");
+		let mainData = Array.from(mainTable.rows).slice(1).map(row => ({
 			itemNum: row.rowIndex,
 			pageNum: row.cells[1].querySelector('.pagenum') ? row.cells[1].querySelector('.pagenum').value : '',
 			location: row.cells[2].querySelector('.loc') ? row.cells[2].querySelector('.loc').value : '',
@@ -278,19 +287,20 @@ window.onload = function() {
 		}));
 
 		// JSON object
-		const jsonData = {
+		let jsonData = {
+			reasons: reasonCheckboxes(),
 			partInfo: partInfoData,
 			mainData: mainData,
 			comments: document.getElementById("commentTextBox") ? document.getElementById("commentTextBox").value : ''
 		};
 
-		const jsonString = JSON.stringify(jsonData, null, 2);
+		let jsonString = JSON.stringify(jsonData, null, 2);
 
 		// Create a blob and download the file
-		const blob = new Blob([jsonString], { type: "application/json" });
-		const url = URL.createObjectURL(blob);
+		let blob = new Blob([jsonString], { type: "application/json" });
+		let url = URL.createObjectURL(blob);
 
-		const a = document.createElement("a");
+		let a = document.createElement("a");
 		a.href = url;
 		a.download = "first_article_inspection_report.json";
 		a.click();
@@ -299,6 +309,75 @@ window.onload = function() {
 	}
 
 	document.getElementById("exportToJson").addEventListener("click", exportToJson);
+
+	//Function that imports JSON file and fills out this form with the data
+	function importJson(e) {
+		e.preventDefault();
+
+		// Trigger the hidden file input click
+		document.getElementById("jsonFileInput").click();
+	}
+
+	document.getElementById("jsonFileInput").addEventListener("change", function(e) {
+		const file = e.target.files[0];
+
+		if (file) {
+			const reader = new FileReader();
+
+			// Read the file as text and get the data as a string value
+			reader.onload = function(e) {
+				const jsonString = e.target.result;
+				if (jsonString) {
+					// Parse the JSON data only if the string is not empty
+					const jsonData = JSON.parse(jsonString);
+
+					if (jsonData.reasons) {
+						Object.keys(jsonData.reasons).forEach(reasonId => {
+							const checkbox = document.getElementById(reasonId);
+							if (checkbox) {
+								checkbox.checked = jsonData.reasons[reasonId];
+							}
+						});
+					}
+
+					// Populate the part info table
+					const partInfoTable = document.getElementById("table_part_info");
+					jsonData.partInfo.forEach((part, index) => {
+						if (index < partInfoTable.rows.length - 1) {
+							partInfoTable.rows[index + 1].cells[0].querySelector('.partnum').value = part.partNum;
+							partInfoTable.rows[index + 1].cells[1].querySelector('.partrev').value = part.partRev;
+							partInfoTable.rows[index + 1].cells[2].querySelector('.partdesc').value = part.partDesc;
+							partInfoTable.rows[index + 1].cells[3].querySelector('.partpo').value = part.partPO;
+							partInfoTable.rows[index + 1].cells[4].querySelector('.partserial').value = part.partSerial;
+						}
+					});
+
+					// Populate the main inspection table
+					const mainTable = document.getElementById("table_main");
+					jsonData.mainData.forEach((item, index) => {
+						if (index < mainTable.rows.length - 1) {
+							mainTable.rows[index + 1].cells[0].textContent = item.itemNum;
+							mainTable.rows[index + 1].cells[1].querySelector('.pagenum').value = item.pageNum;
+							mainTable.rows[index + 1].cells[2].querySelector('.loc').value = item.location;
+							mainTable.rows[index + 1].cells[3].querySelector('.param').value = item.param;
+							mainTable.rows[index + 1].cells[4].querySelector('.actual').value = item.actual;
+							mainTable.rows[index + 1].cells[5].querySelector('.insptool').value = item.inspTool;
+						}
+					});
+
+					// Populate comments
+					const commentTextBox = document.getElementById("commentTextBox");
+					if (commentTextBox) {
+						commentTextBox.value = jsonData.comments || '';
+					}
+				}
+			};
+
+			reader.readAsText(file);
+		}
+	});
+
+	document.getElementById("importJsonButton").addEventListener("click", importJson);
 
 
 	// Floating info box
