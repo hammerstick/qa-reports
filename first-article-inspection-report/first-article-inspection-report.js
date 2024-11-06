@@ -94,27 +94,33 @@ function parseInputCellsInRow(row) {
 	}
 }
 
-// Function to check if there's another input to go to using the 'Enter' key
+// Function to check if there's another input in the same column in the next row to go to using the 'Enter' key
 function goToNextInput(currentInput) {
-	let table = currentInput.closest('table');
-	let inputs = Array.from(table.querySelectorAll('input[type=text]'));
-	let currentIndex = inputs.indexOf(currentInput);
-
-	// Get the current row
+	// Get the current row and column of the current input
 	let currentRow = currentInput.closest('tr');
+	let currentColumn = Array.from(currentInput.closest('td').parentNode.children)
+	let currentColumnIndex = currentColumn.indexOf(currentInput.closest('td'));
 
-	for (let i = currentIndex + 1; i < inputs.length; i++) {
-		if (inputs[i].parentElement.cellIndex === currentInput.parentElement.cellIndex) {
-			let itemNumber = currentRow.rowIndex;
-			// console.log(`Currently viewing Item #${itemNumber}`);
-			return inputs[i];
+	let tableBody = currentRow.closest('tbody');
+
+	let allRows = Array.from(tableBody.querySelectorAll('tr'));
+
+	let currentRowIndex = allRows.indexOf(currentRow)
+
+	// Check if there is a next row
+	if (currentRowIndex < allRows.length - 1) {
+		let nextRow = allRows[currentRowIndex + 1];
+
+		// Get the next input in the same column in the next row
+		let nextInput = nextRow.cells[currentColumnIndex].querySelector('input[type="text"]')
+
+		if (nextInput) {
+			return nextInput
 		}
 	}
 
 	return null;
 }
-
-
 
 /**
  * This function simply runs other functions that should be called on rows in a table.
@@ -169,8 +175,12 @@ window.onload = function() {
 	table_menu.regAllChildrenInputs()
 
 	// "Insert new row" button processing
-	table_menu.buttons.get("rowAppend").addEventListener( "click", function() {
-		let append_this_many_rows = table_menu.inputs.get("rowAppendNum").value
+	let rowAppendButton = document.getElementById('rowAppend');
+	let rowAppendNumInput = document.getElementById('rowAppendNum')
+
+
+	rowAppendButton.addEventListener( "click", function() {
+		let append_this_many_rows = parseInt(rowAppendNumInput.value, 10) || 1
 
 		table_main.appendRows("body",
 		                      append_this_many_rows,
@@ -183,10 +193,14 @@ window.onload = function() {
 
 
 	// Delete row(s) button
-	table_menu.buttons.get('rowDelete').addEventListener('click', function(e) {
+	let rowDeleteButton = document.getElementById('rowDelete');
+	let rowDeleteNumInput = document.getElementById('rowDeleteInput')
+
+
+	rowDeleteButton.addEventListener('click', function(e) {
 		e.preventDefault();
 
-		let delete_these_rows_input = table_menu.inputs.get('rowDeleteInput').value.trim();
+		let delete_these_rows_input = (rowDeleteNumInput.value.trim());
 
 		// Do nothing if input is blank
 		if (!delete_these_rows_input) return;
@@ -247,7 +261,7 @@ window.onload = function() {
 		}
 
 		// Clear the input box after button click
-		table_menu.inputs.get('rowDeleteInput').value = '';
+		rowDeleteNumInput.value = '';
 
 		// Comment in this line if you want to renumber rows
 		table_main.serialNumberCol("body", 0, 1);
