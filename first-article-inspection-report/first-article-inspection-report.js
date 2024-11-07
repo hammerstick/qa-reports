@@ -81,9 +81,9 @@ function parseInputCellsInRow(row) {
 			node.value = replaceSubstringMap(node.value, mathMap)
 		})
 
-		node.addEventListener('keydown', function(e) {
-			if (e.key === "Enter") {
-				e.preventDefault()
+		node.addEventListener('keydown', function(event) {
+			if (event.key === "Enter") {
+				event.preventDefault()
 
 				let nextInput = goToNextInput(node)
 				if (nextInput) {
@@ -197,8 +197,8 @@ window.onload = function() {
 	let rowDeleteNumInput = document.getElementById('rowDeleteInput')
 
 
-	rowDeleteButton.addEventListener('click', function(e) {
-		e.preventDefault()
+	rowDeleteButton.addEventListener('click', function(event) {
+		event.preventDefault()
 
 		let delete_these_rows_input = (rowDeleteNumInput.value.trim())
 
@@ -325,22 +325,22 @@ window.onload = function() {
 	document.getElementById("exportToJson").addEventListener("click", exportToJson)
 
 	//Function that imports JSON file and fills out this form with the data
-	function importJson(e) {
-		e.preventDefault()
+	function importJson(event) {
+		event.preventDefault()
 
 		// Trigger the hidden file input click
 		document.getElementById("jsonFileInput").click()
 	}
 
-	document.getElementById("jsonFileInput").addEventListener("change", function(e) {
-		const file = e.target.files[0]
+	document.getElementById("jsonFileInput").addEventListener("change", function(event) {
+		const file = event.target.files[0]
 
 		if (file) {
 			const reader = new FileReader()
 
 			// Read the file as text and get the data as a string value
-			reader.onload = function(e) {
-				const jsonString = e.target.result
+			reader.onload = function(event) {
+				const jsonString = event.target.result
 				if (jsonString) {
 					// Parse the JSON data only if the string is not empty
 					const jsonData = JSON.parse(jsonString)
