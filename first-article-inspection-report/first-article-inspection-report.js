@@ -85,7 +85,7 @@ function parseInputCellsInRow(row) {
 			if (e.key === "Enter") {
 				e.preventDefault()
 
-				let nextInput = goToNextInput(node);
+				let nextInput = goToNextInput(node)
 				if (nextInput) {
 					nextInput.focus()
 				}
@@ -97,19 +97,19 @@ function parseInputCellsInRow(row) {
 // Function to check if there's another input in the same column in the next row to go to using the 'Enter' key
 function goToNextInput(currentInput) {
 	// Get the current row and column of the current input
-	let currentRow = currentInput.closest('tr');
+	let currentRow = currentInput.closest('tr')
 	let currentColumn = Array.from(currentInput.closest('td').parentNode.children)
-	let currentColumnIndex = currentColumn.indexOf(currentInput.closest('td'));
+	let currentColumnIndex = currentColumn.indexOf(currentInput.closest('td'))
 
-	let tableBody = currentRow.closest('tbody');
+	let tableBody = currentRow.closest('tbody')
 
-	let allRows = Array.from(tableBody.querySelectorAll('tr'));
+	let allRows = Array.from(tableBody.querySelectorAll('tr'))
 
 	let currentRowIndex = allRows.indexOf(currentRow)
 
 	// Check if there is a next row
 	if (currentRowIndex < allRows.length - 1) {
-		let nextRow = allRows[currentRowIndex + 1];
+		let nextRow = allRows[currentRowIndex + 1]
 
 		// Get the next input in the same column in the next row
 		let nextInput = nextRow.cells[currentColumnIndex].querySelector('input[type="text"]')
@@ -119,7 +119,7 @@ function goToNextInput(currentInput) {
 		}
 	}
 
-	return null;
+	return null
 }
 
 /**
@@ -133,9 +133,9 @@ function goToNextInput(currentInput) {
 
 function rowFunc(row) {
 	// addFloatingMenuToRow(row)
-	const itemNumCell = row.cells[0].querySelector('.itemnum');
+	const itemNumCell = row.cells[0].querySelector('.itemnum')
 	if (itemNumCell) {
-		itemNumCell.value = row.rowIndex;
+		itemNumCell.value = row.rowIndex
 	}
 	parseInputCellsInRow(row)
 }
@@ -175,7 +175,7 @@ window.onload = function() {
 	table_menu.regAllChildrenInputs()
 
 	// "Insert new row" button processing
-	let rowAppendButton = document.getElementById('rowAppend');
+	let rowAppendButton = document.getElementById('rowAppend')
 	let rowAppendNumInput = document.getElementById('rowAppendNum')
 
 
@@ -193,67 +193,67 @@ window.onload = function() {
 
 
 	// Delete row(s) button
-	let rowDeleteButton = document.getElementById('rowDelete');
+	let rowDeleteButton = document.getElementById('rowDelete')
 	let rowDeleteNumInput = document.getElementById('rowDeleteInput')
 
 
 	rowDeleteButton.addEventListener('click', function(e) {
-		e.preventDefault();
+		e.preventDefault()
 
-		let delete_these_rows_input = (rowDeleteNumInput.value.trim());
+		let delete_these_rows_input = (rowDeleteNumInput.value.trim())
 
 		// Do nothing if input is blank
-		if (!delete_these_rows_input) return;
+		if (!delete_these_rows_input) return
 
-		let itemNumbersToDelete = [];
+		let itemNumbersToDelete = []
 
 		// Deletion of multiple rows indicated by comma separation
-		let delete_range = delete_these_rows_input.split(',');
+		let delete_range = delete_these_rows_input.split(',')
 
 		for (let range of delete_range) {
 			// Checking if input contains a hyphen, indicating a specified range of rows based on item numbers
 			if (range.includes('-')) {
 				// Split the range string into start and end values, and converting them to numbers
-				let [start, end] = range.split('-').map(Number);
+				let [start, end] = range.split('-').map(Number)
 
 				// Make sure start and end values are in fact numbers/integers
 				if (!isNaN(start) && !isNaN(end) && start > 0 && end > 0) {
 					for (let i = start; i <= end; i++) {
-						itemNumbersToDelete.push(i);
+						itemNumbersToDelete.push(i)
 					}
 				}
 			} else {
 				// For single number input deletion
-				let itemNumber = Number(range.trim());
+				let itemNumber = Number(range.trim())
 				if (!isNaN(itemNumber) && itemNumber > 0) {
-					itemNumbersToDelete.push(itemNumber);
+					itemNumbersToDelete.push(itemNumber)
 				}
 			}
 		}
 
 		// Using a Set to store unique values, this makes sure that any duplicate values will not be considered/added, thus no duplicate row number deletions.
-		let uniqueItemNumbersToDelete = [...new Set(itemNumbersToDelete)].sort((a, b) => b - a);
+		let uniqueItemNumbersToDelete = [...new Set(itemNumbersToDelete)].sort((a, b) => b - a)
 
-		let successfullyDeleted = [];
+		let successfullyDeleted = []
 
 		// Select all rows in the table body
-		const rows = document.querySelectorAll('#table_main tbody tr');
+		const rows = document.querySelectorAll('#table_main tbody tr')
 
 		// Delete rows based on item number
 		uniqueItemNumbersToDelete.forEach((itemNumber) => {
 			// Find the row with the matching item number
 			let rowIndex = Array.from(rows).findIndex((row) => {
-				return Number(row.cells[0].textContent.trim()) === itemNumber;
-			});
+				return Number(row.cells[0].textContent.trim()) === itemNumber
+			})
 
 			// If the row exists, delete it
 			if (rowIndex !== -1) {
-				rows[rowIndex].remove();
-				successfullyDeleted.push(itemNumber);
+				rows[rowIndex].remove()
+				successfullyDeleted.push(itemNumber)
 			} else {
 				console.error(`Item Number ${itemNumber} does not exist.`)
 			}
-		});
+		})
 
 		if(successfullyDeleted.length > 0) {
 			successfullyDeleted.sort((a, b) => a - b)
@@ -261,36 +261,36 @@ window.onload = function() {
 		}
 
 		// Clear the input box after button click
-		rowDeleteNumInput.value = '';
+		rowDeleteNumInput.value = ''
 
 		// Comment in this line if you want to renumber rows
-		table_main.serialNumberCol("body", 0, 1);
-	});
+		table_main.serialNumberCol("body", 0, 1)
+	})
 
 
 	//Function for the "Reason" checkboxes, to then add to the JSON object
 	function reasonCheckboxes() {
-		let reasons = {};
+		let reasons = {}
 		document.querySelectorAll('.reasoncheckbox').forEach((checkbox) => {
-			reasons[checkbox.id] = checkbox.checked;
-		});
-		return reasons;
+			reasons[checkbox.id] = checkbox.checked
+		})
+		return reasons
 	}
 
 	// Function that exports this JS file to a JSON file
 	function exportToJson() {
 		// Collect data from part info table and also allows for blank inputs
-		let partInfoTable = document.getElementById("table_part_info");
+		let partInfoTable = document.getElementById("table_part_info")
 		let partInfoData = Array.from(partInfoTable.rows).slice(1).map(row => ({
 			partNum: row.cells[0].querySelector('.partnum') ? row.cells[0].querySelector('.partnum').value : '',
 			partRev: row.cells[1].querySelector('.partrev') ? row.cells[1].querySelector('.partrev').value : '',
 			partDesc: row.cells[2].querySelector('.partdesc') ? row.cells[2].querySelector('.partdesc').value : '',
 			partPO: row.cells[3].querySelector('.partpo') ? row.cells[3].querySelector('.partpo').value : '',
 			partSerial: row.cells[4].querySelector('.partserial') ? row.cells[4].querySelector('.partserial').value : '',
-		}));
+		}))
 
 		// Collect data from main inspection table and also allows for blank inputs
-		let mainTable = document.getElementById("table_main");
+		let mainTable = document.getElementById("table_main")
 		let mainData = Array.from(mainTable.rows).slice(1).map(row => ({
 			itemNum: row.rowIndex,
 			pageNum: row.cells[1].querySelector('.pagenum') ? row.cells[1].querySelector('.pagenum').value : '',
@@ -298,7 +298,7 @@ window.onload = function() {
 			param: row.cells[3].querySelector('.param') ? row.cells[3].querySelector('.param').value : '',
 			actual: row.cells[4].querySelector('.actual') ? row.cells[4].querySelector('.actual').value : '',
 			inspTool: row.cells[5].querySelector('.insptool') ? row.cells[5].querySelector('.insptool').value : '',
-		}));
+		}))
 
 		// JSON object
 		let jsonData = {
@@ -306,92 +306,92 @@ window.onload = function() {
 			partInfo: partInfoData,
 			mainData: mainData,
 			comments: document.getElementById("commentTextBox") ? document.getElementById("commentTextBox").value : ''
-		};
+		}
 
-		let jsonString = JSON.stringify(jsonData, null, 2);
+		let jsonString = JSON.stringify(jsonData, null, 2)
 
 		// Create a blob and download the file
-		let blob = new Blob([jsonString], { type: "application/json" });
-		let url = URL.createObjectURL(blob);
+		let blob = new Blob([jsonString], { type: "application/json" })
+		let url = URL.createObjectURL(blob)
 
-		let a = document.createElement("a");
-		a.href = url;
-		a.download = "first_article_inspection_report.json";
-		a.click();
+		let a = document.createElement("a")
+		a.href = url
+		a.download = "first_article_inspection_report.json"
+		a.click()
 
-		URL.revokeObjectURL(url);
+		URL.revokeObjectURL(url)
 	}
 
-	document.getElementById("exportToJson").addEventListener("click", exportToJson);
+	document.getElementById("exportToJson").addEventListener("click", exportToJson)
 
 	//Function that imports JSON file and fills out this form with the data
 	function importJson(e) {
-		e.preventDefault();
+		e.preventDefault()
 
 		// Trigger the hidden file input click
-		document.getElementById("jsonFileInput").click();
+		document.getElementById("jsonFileInput").click()
 	}
 
 	document.getElementById("jsonFileInput").addEventListener("change", function(e) {
-		const file = e.target.files[0];
+		const file = e.target.files[0]
 
 		if (file) {
-			const reader = new FileReader();
+			const reader = new FileReader()
 
 			// Read the file as text and get the data as a string value
 			reader.onload = function(e) {
-				const jsonString = e.target.result;
+				const jsonString = e.target.result
 				if (jsonString) {
 					// Parse the JSON data only if the string is not empty
-					const jsonData = JSON.parse(jsonString);
+					const jsonData = JSON.parse(jsonString)
 
 					if (jsonData.reasons) {
 						Object.keys(jsonData.reasons).forEach(reasonId => {
-							const checkbox = document.getElementById(reasonId);
+							const checkbox = document.getElementById(reasonId)
 							if (checkbox) {
-								checkbox.checked = jsonData.reasons[reasonId];
+								checkbox.checked = jsonData.reasons[reasonId]
 							}
-						});
+						})
 					}
 
 					// Populate the part info table
-					const partInfoTable = document.getElementById("table_part_info");
+					const partInfoTable = document.getElementById("table_part_info")
 					jsonData.partInfo.forEach((part, index) => {
 						if (index < partInfoTable.rows.length - 1) {
-							partInfoTable.rows[index + 1].cells[0].querySelector('.partnum').value = part.partNum;
-							partInfoTable.rows[index + 1].cells[1].querySelector('.partrev').value = part.partRev;
-							partInfoTable.rows[index + 1].cells[2].querySelector('.partdesc').value = part.partDesc;
-							partInfoTable.rows[index + 1].cells[3].querySelector('.partpo').value = part.partPO;
-							partInfoTable.rows[index + 1].cells[4].querySelector('.partserial').value = part.partSerial;
+							partInfoTable.rows[index + 1].cells[0].querySelector('.partnum').value = part.partNum
+							partInfoTable.rows[index + 1].cells[1].querySelector('.partrev').value = part.partRev
+							partInfoTable.rows[index + 1].cells[2].querySelector('.partdesc').value = part.partDesc
+							partInfoTable.rows[index + 1].cells[3].querySelector('.partpo').value = part.partPO
+							partInfoTable.rows[index + 1].cells[4].querySelector('.partserial').value = part.partSerial
 						}
-					});
+					})
 
 					// Populate the main inspection table
-					const mainTable = document.getElementById("table_main");
+					const mainTable = document.getElementById("table_main")
 					jsonData.mainData.forEach((item, index) => {
 						if (index < mainTable.rows.length - 1) {
-							mainTable.rows[index + 1].cells[0].textContent = item.itemNum;
-							mainTable.rows[index + 1].cells[1].querySelector('.pagenum').value = item.pageNum;
-							mainTable.rows[index + 1].cells[2].querySelector('.loc').value = item.location;
-							mainTable.rows[index + 1].cells[3].querySelector('.param').value = item.param;
-							mainTable.rows[index + 1].cells[4].querySelector('.actual').value = item.actual;
-							mainTable.rows[index + 1].cells[5].querySelector('.insptool').value = item.inspTool;
+							mainTable.rows[index + 1].cells[0].textContent = item.itemNum
+							mainTable.rows[index + 1].cells[1].querySelector('.pagenum').value = item.pageNum
+							mainTable.rows[index + 1].cells[2].querySelector('.loc').value = item.location
+							mainTable.rows[index + 1].cells[3].querySelector('.param').value = item.param
+							mainTable.rows[index + 1].cells[4].querySelector('.actual').value = item.actual
+							mainTable.rows[index + 1].cells[5].querySelector('.insptool').value = item.inspTool
 						}
-					});
+					})
 
 					// Populate comments
-					const commentTextBox = document.getElementById("commentTextBox");
+					const commentTextBox = document.getElementById("commentTextBox")
 					if (commentTextBox) {
-						commentTextBox.value = jsonData.comments || '';
+						commentTextBox.value = jsonData.comments || ''
 					}
 				}
-			};
+			}
 
-			reader.readAsText(file);
+			reader.readAsText(file)
 		}
-	});
+	})
 
-	document.getElementById("importJsonButton").addEventListener("click", importJson);
+	document.getElementById("importJsonButton").addEventListener("click", importJson)
 
 
 	// Floating info box
