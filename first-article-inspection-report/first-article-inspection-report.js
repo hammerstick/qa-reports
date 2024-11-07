@@ -94,7 +94,14 @@ function parseInputCellsInRow(row) {
 	}
 }
 
-// Function to check if there's another input in the same column in the next row to go to using the 'Enter' key
+/** Finds the next input in the same column of the following row in the table, allowing
+ *  users to navigate to the next input by pressing the 'Enter' key.
+ *
+ * This function is used to enable keyboard navigation within a table, moving to the next
+ * input field directly below the current one.
+ *
+ * @param {object} currentInput - The current input DOM element where 'Enter' is pressed.
+*/
 function goToNextInput(currentInput) {
 	// Get the current row and column of the current input
 	let currentRow = currentInput.closest('tr')
@@ -193,6 +200,16 @@ window.onload = function() {
 
 
 	// Delete row(s) button
+	/**
+	 * Handles the deletion of specific rows from the table based on user input.
+	 *
+	 * Users can specify rows to delete by inputting single numbers, multiple numbers separated by commas, or ranges of numbers.
+	 *
+	 * This function listens for a button click to trigger row deletions, parses the
+	 * input, finds the inputted integer and removes them from the table.
+	 *
+	 * @param {Event} event - The button click even triggering the row deletion.
+	 */
 	let rowDeleteButton = document.getElementById('rowDelete')
 	let rowDeleteNumInput = document.getElementById('rowDeleteInput')
 
@@ -269,6 +286,18 @@ window.onload = function() {
 
 
 	//Function for the "Reason" checkboxes, to then add to the JSON object
+	/**
+	 * Finds the state of "Reason" checkboxes and stores them in an object.
+	 *
+	 * Each checkbox's id is used as a key in the object, with its checked status as the
+	 * value.
+	 *
+	 * This function is intended to be used to create a JSON object representing the
+	 * checkbox where 'true' indicates a checked checkbox and 'false' indicates an
+	 * unchecked checkbox.
+	 *
+	 * @returns {object} - An object representing each checkbox's checked state using boolean values, 'true' for checked and 'false' for unchecked.
+	 */
 	function reasonCheckboxes() {
 		let reasons = {}
 		document.querySelectorAll('.reasoncheckbox').forEach((checkbox) => {
@@ -278,6 +307,18 @@ window.onload = function() {
 	}
 
 	// Function that exports this JS file to a JSON file
+	/**
+	 * Exports data from part info and main inspection tables, along with additional
+	 * information to a JSON file.
+	 *
+	 * Each table's data is collected by row and the JSON object includes checkboxes
+	 * states, part information, inspection data, and comments.
+	 *
+	 * If any of the inputs are left blank, they are stored in the JSON object as an empty
+	 * string ''.
+	 *
+	 * The JSON file is then downloaded as 'first_article_inspection_report.json'.
+	 */
 	function exportToJson() {
 		// Collect data from part info table and also allows for blank inputs
 		let partInfoTable = document.getElementById("table_part_info")
@@ -325,6 +366,10 @@ window.onload = function() {
 	document.getElementById("exportToJson").addEventListener("click", exportToJson)
 
 	//Function that imports JSON file and fills out this form with the data
+	/**
+	 * 
+	 *
+	 */
 	function importJson(event) {
 		event.preventDefault()
 
