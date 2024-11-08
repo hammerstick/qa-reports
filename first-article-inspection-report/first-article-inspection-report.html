@@ -78,8 +78,20 @@
 				</table>
 				<!-- Menu bar containing buttons for manipulating the main table -->
 				<div class="table_menu no-print" id="table_main_menu">
-					<button type="button" id="rowAppend">Insert new rows</button>
-					<input type="number" id="rowAppendNum" placeholder="#" value="1" min="1">
+					<div class="table_menu_item">
+						<button type="button" id="rowAppend">Insert new rows</button>
+						<input type="number" id="rowAppendNum" placeholder="#" value="1" min="1">
+					</div>
+
+					<div class="table_menu_item">
+						<button type="button" id="rowDelete">Delete row(s)</button>
+						<input type="text" id="rowDeleteInput" placeholder="e.g. 1,6-8">
+					</div>
+
+					<button type="button" id="exportToJson">Export to JSON</button>
+
+					<button id="importJsonButton">Import JSON File</button>
+					<input type="file" id="jsonFileInput" accept=".json" style="display: none">
 				</div>
 
 				<br>

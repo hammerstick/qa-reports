@@ -167,6 +167,12 @@ input {
 }
 
 /* Menu for modifying the main table */
+#table_main_menu {
+	display: flex;
+	justify-content: space-between;
+	gap: 20px;
+}
+
 .table_menu {
 	display: flex;
 	margin-top: 10px;
@@ -175,6 +181,14 @@ input {
 
 .table_menu > * {
 	margin: 5px;
+}
+
+.table_menu_item button {
+	height: 100%;
+}
+
+.table_menu_item input {
+	height: 90%;
 }
 
 /* Styling for things inside the main table menu */
