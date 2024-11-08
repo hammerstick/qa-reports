@@ -198,8 +198,6 @@ window.onload = function() {
 		table_main.serialNumberCol("body", 0, 1)
 		} )
 
-
-	// Delete row(s) button
 	/**
 	 * Handles the deletion of specific rows from the table based on user input.
 	 *
@@ -284,8 +282,6 @@ window.onload = function() {
 		table_main.serialNumberCol("body", 0, 1)
 	})
 
-
-	//Function for the "Reason" checkboxes, to then add to the JSON object
 	/**
 	 * Finds the state of "Reason" checkboxes and stores them in an object.
 	 *
@@ -306,7 +302,6 @@ window.onload = function() {
 		return reasons
 	}
 
-	// Function that exports this JS file to a JSON file
 	/**
 	 * Exports data from part info and main inspection tables, along with additional
 	 * information to a JSON file.
@@ -355,19 +350,25 @@ window.onload = function() {
 		let blob = new Blob([jsonString], { type: "application/json" })
 		let url = URL.createObjectURL(blob)
 
-		let a = document.createElement("a")
-		a.href = url
-		a.download = "first_article_inspection_report.json"
-		a.click()
+		let downloadJsonFile = document.createElement("a")
+		downloadJsonFile.href = url
+		downloadJsonFile.download = "first_article_inspection_report.json"
+		downloadJsonFile.click()
 
 		URL.revokeObjectURL(url)
 	}
 
 	document.getElementById("exportToJson").addEventListener("click", exportToJson)
 
-	//Function that imports JSON file and fills out this form with the data
 	/**
-	 * 
+	 * Handles importing data from a JSON file and populating the form fields based on
+	 * the JSON content.
+	 *
+	 * When triggered by the button click, this function opens a file window, allowing
+	 * the user to select a JSON file.
+	 *
+	 * Data is read from the file, parsed, and used to fill out checkboxes, tables, and
+	 * comments in the form.
 	 *
 	 */
 	function importJson(event) {
