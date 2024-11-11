@@ -4,6 +4,15 @@
 
 "use strict";
 
+/*
+// JSON schema version
+*/
+
+/** This version of the First Article Inspection Report code is compatible with this version number, which is a simple natural number.
+ * Any JSON exported will have this schema version number. When importing a JSON file, the file will only be supported if it has a version number equal to or less then this version number.
+ * This version number should be incremented whenever the JSON schema changes.
+ */
+const json_schema_version = 1
 
 /* ******************** */
 // Main
@@ -350,6 +359,7 @@ window.onload = function() {
 
 		// JSON object
 		let jsonData = {
+			meta: { schemaVersion: json_schema_version },
 			reasons: reasonCheckboxes(),
 			partInfo: partInfoData,
 			mainData: mainData,
@@ -411,6 +421,13 @@ window.onload = function() {
 								checkbox.checked = jsonData.reasons[reasonId]
 							}
 						})
+					}
+
+					// The JSON file must have a compatible schema version number.
+					// Note: if it has a lower version number, a way to migrate the JSON schema to the current version should be provided.
+					if (! (jsonData.schemaVersion > json_schema_version) ) {
+						window.alert(`ERROR: JSON file has incompatible version ${jsonData.schemaVersion}. Only versions ${json_schema_version} and lower are supported.`)
+						return
 					}
 
 					// Populate the part info table
