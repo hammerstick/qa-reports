@@ -185,6 +185,12 @@ window.onload = function() {
 	let rowAppendButton = document.getElementById('rowAppend')
 	let rowAppendNumInput = document.getElementById('rowAppendNum')
 
+	rowAppendNumInput.addEventListener('keydown', function(event) {
+		if (event.key === "Enter") {
+			event.preventDefault()
+			rowAppendButton.click()
+		}
+	})
 
 	rowAppendButton.addEventListener( "click", function() {
 		let append_this_many_rows = parseInt(rowAppendNumInput.value, 10) || 1
@@ -211,6 +217,12 @@ window.onload = function() {
 	let rowDeleteButton = document.getElementById('rowDelete')
 	let rowDeleteNumInput = document.getElementById('rowDeleteInput')
 
+	rowDeleteNumInput.addEventListener('keydown', function(event) {
+		if (event.key === "Enter") {
+			event.preventDefault()
+			rowDeleteButton.click()
+		}
+	})
 
 	rowDeleteButton.addEventListener('click', function(event) {
 		event.preventDefault()
@@ -371,6 +383,7 @@ window.onload = function() {
 	 * comments in the form.
 	 *
 	 */
+
 	function importJson(event) {
 		event.preventDefault()
 
