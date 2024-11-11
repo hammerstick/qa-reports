@@ -425,8 +425,8 @@ window.onload = function() {
 
 					// The JSON file must have a compatible schema version number.
 					// Note: if it has a lower version number, a way to migrate the JSON schema to the current version should be provided.
-					if (! (jsonData.schemaVersion > json_schema_version) ) {
-						window.alert(`ERROR: JSON file has incompatible version ${jsonData.schemaVersion}. Only versions ${json_schema_version} and lower are supported.`)
+					if ( jsonData.meta.schemaVersion > json_schema_version ) {
+						window.alert(`ERROR: JSON file has incompatible version ${jsonData.meta.schemaVersion}. Only versions ${json_schema_version} and lower are supported.`)
 						return
 					}
 
