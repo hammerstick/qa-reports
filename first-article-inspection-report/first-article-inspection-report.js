@@ -380,7 +380,7 @@ window.onload = function() {
 
 		let downloadJsonFile = document.createElement("a")
 		downloadJsonFile.href = url
-		downloadJsonFile.download = `${fileName}.json`
+		downloadJsonFile.download = fileName
 		downloadJsonFile.click()
 
 		URL.revokeObjectURL(url)
