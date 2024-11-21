@@ -368,13 +368,19 @@ window.onload = function() {
 
 		let jsonString = JSON.stringify(jsonData, null, 2)
 
+		let partNum = partInfoData[0]?.partNum || ""
+		let partRev = partInfoData[0]?.partRev ? `rev${partInfoData[0]?.partRev}` : ""
+		let currentDate = new Date().toISOString().split('T')[0]
+
+		let fileName = `fair_${partNum}${partRev}_${currentDate}`
+
 		// Create a blob and download the file
 		let blob = new Blob([jsonString], { type: "application/json" })
 		let url = URL.createObjectURL(blob)
 
 		let downloadJsonFile = document.createElement("a")
 		downloadJsonFile.href = url
-		downloadJsonFile.download = "first_article_inspection_report.json"
+		downloadJsonFile.download = fileName
 		downloadJsonFile.click()
 
 		URL.revokeObjectURL(url)
