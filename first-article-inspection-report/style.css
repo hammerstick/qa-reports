@@ -143,10 +143,12 @@ input {
 	text-align: center;
 }
 
-/* Styles for cells in the table_part_info table */
+/* Styles for cells in the table_company_name_info table */
 .companyname {
 	width: 50em;
 }
+
+/* Styles for cells in the table_part_info table */
 .partnum {
 	width: 9em;
 }
