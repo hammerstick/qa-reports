@@ -121,6 +121,22 @@ h1, h2, h3 {
 	margin-bottom: 20px;
 }
 
+#table_company_name_info th {
+	/* border: 2px solid red; */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-bottom: 5px;
+	flex-direction: row;
+	gap: 20px;
+}
+
+#table_company_name_info div {
+	/* border: 2px solid blue; */
+	display: flex;
+	align-items: center;
+}
+
 #table_part_info {
 	margin-left: auto;
 	margin-right: auto;

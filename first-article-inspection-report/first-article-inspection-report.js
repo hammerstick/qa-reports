@@ -37,6 +37,7 @@ const rowNumInitial = 28
 //The row of the table containing the company name
 let table_company_name_cell = [
 							   "<label><input type=\"text\" class=\"companyname\" ></input></label>",
+							//    "<label><input type=\"checkbox\" class=\"revealcheckbox\" ></input></label>"
 							  ]
 
 // The row of the table containing part information (part number, part description, etc.) will contain these cells
