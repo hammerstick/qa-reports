@@ -115,6 +115,12 @@ h1, h2, h3 {
 	background-color: whitesmoke;
 }
 
+#table_company_name_info {
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 20px;
+}
+
 #table_part_info {
 	margin-left: auto;
 	margin-right: auto;
@@ -138,6 +144,9 @@ input {
 }
 
 /* Styles for cells in the table_part_info table */
+.companyname {
+	width: 50em;
+}
 .partnum {
 	width: 9em;
 }

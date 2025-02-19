@@ -34,6 +34,11 @@ const json_schema_version = 1
  */
 const rowNumInitial = 28
 
+//The row of the table containing the company name
+let table_company_name_cell = [
+							  "<label><input type=\"text\" class=\"companyname\" ></input></label>",
+							  ]
+
 // The row of the table containing part information (part number, part description, etc.) will contain these cells
 let table_part_info_cells = [
                              "<label><input type=\"text\" class=\"partnum\" ></input></label>",
@@ -168,6 +173,17 @@ function rowFunc(row) {
 }
 
 window.onload = function() {
+	let table_company_name_info = new Table(document.getElementById("table_company_name_info"))
+	table_company_name_info.regHead(document.getElementById("table_company_name_info").thead, "head")
+	table_company_name_info.regBody(document.getElementById("table_company_name_info").getElementsByTagName("tbody")[0], "body")
+
+	table_company_name_info.appendRows("body",
+	                          1,
+	                          1,
+	                          parseInputCellsInRow,
+	                          arrayToGenerator(table_company_name_cell, 1)
+	                          )
+
 	let table_part_info = new Table(document.getElementById("table_part_info"))
 	table_part_info.regHead(document.getElementById("table_part_info").tHead, "head")
 	table_part_info.regBody(document.getElementById("table_part_info").getElementsByTagName("tbody")[0], "body")
