@@ -37,7 +37,6 @@ const rowNumInitial = 28
 //The row of the table containing the company name
 let table_company_name_cell = [
 							   "<label><input type=\"text\" class=\"companyname\" ></input></label>",
-							//    "<label><input type=\"checkbox\" class=\"revealcheckbox\" ></input></label>"
 							  ]
 
 // The row of the table containing part information (part number, part description, etc.) will contain these cells
@@ -184,6 +183,22 @@ window.onload = function() {
 	                          parseInputCellsInRow,
 	                          arrayToGenerator(table_company_name_cell, 1)
 	                          )
+
+	let revealCheckBox = document.getElementById("revealcheckbox")
+
+	function companyNameVisibility() {
+
+		let companyNameInput = document.querySelector("input.companyname")
+			if (revealCheckBox.checked) {
+				companyNameInput.classList.remove("hide-company-name")
+			} else {
+				companyNameInput.classList.add("hide-company-name")
+		}
+	}
+
+	companyNameVisibility()
+
+	revealCheckBox.addEventListener("change", companyNameVisibility)
 
 	let table_part_info = new Table(document.getElementById("table_part_info"))
 	table_part_info.regHead(document.getElementById("table_part_info").tHead, "head")
