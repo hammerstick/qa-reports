@@ -104,6 +104,7 @@ h1, h2, h3 {
 	position: absolute;
 	right: 0;
 	padding-right: 5px;
+	font-weight: lighter;
 }
 
 .company_name_container{
