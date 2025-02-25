@@ -98,6 +98,18 @@ h1, h2, h3 {
 	content: "✓";
 }
 
+/* "Reveal" section */
+.reveal_container {
+	font-size: 12px;
+	position: absolute;
+	right: 0;
+	padding-right: 5px;
+}
+
+.company_name_container{
+	text-align: center;
+}
+
 /* Table stylings */
 .table_basic {
 	table-layout: auto;
@@ -127,17 +139,16 @@ h1, h2, h3 {
 }
 
 #table_company_name_info th {
-	/* border: 2px solid red; */
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	position: relative;
 	padding-bottom: 5px;
 	flex-direction: row;
-	gap: 30px;
+	gap: 40px;
 }
 
 #table_company_name_info div {
-	/* border: 2px solid blue; */
 	display: flex;
 	align-items: center;
 }
