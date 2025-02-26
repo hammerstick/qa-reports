@@ -489,6 +489,12 @@ window.onload = function() {
 						return
 					}
 
+					// Populate the company name table
+					const companyNameInput = document.querySelector("input.companyname")
+					if (companyNameInput) {
+						companyNameInput.value = jsonData.companyName || ""
+					}
+
 					// Populate the part info table
 					const partInfoTable = document.getElementById("table_part_info")
 					jsonData.partInfo.forEach((part, index) => {
