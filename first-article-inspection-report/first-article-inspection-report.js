@@ -502,6 +502,16 @@ window.onload = function() {
 						companyNameInput.value = jsonData.companyName || ""
 					}
 
+					/**
+					 * Populate the data for the state of the reveal checkbox
+					 * If the checkbox is checked, the value will be true,
+					 * If the checkbox is unchecked, the value will be false
+					 * */
+					const revealCheckBox = document.getElementById("revealcheckbox")
+					if (revealCheckBox) {
+						revealCheckBox.checked = jsonData.revealChecked || false;
+					}
+
 					// Populate the part info table
 					const partInfoTable = document.getElementById("table_part_info")
 					jsonData.partInfo.forEach((part, index) => {
