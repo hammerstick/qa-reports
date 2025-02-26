@@ -393,6 +393,10 @@ window.onload = function() {
 		let companyNameInput = document.querySelector("input.companyname")
 		let companyData = ''
 
+		/* Include the Reveal checkbox in the object
+		If the checkbox is unchecked, the value will be false
+		If the checkbox is checked, the value will be true
+		*/
 		let revealCheckBox = document.getElementById('revealcheckbox')
 		let isRevealChecked = revealCheckBox.checked;
 
