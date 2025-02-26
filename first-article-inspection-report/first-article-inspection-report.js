@@ -389,6 +389,15 @@ window.onload = function() {
 			partSerial: row.cells[4].querySelector('.partserial') ? row.cells[4].querySelector('.partserial').value : '',
 		}))
 
+		// Collect data from company name table and also allows for blank inputs
+		let companyNameInput = document.querySelector("input.companyname")
+		let companyData = ''
+
+		let revealCheckBox = document.getElementById('revealcheckbox')
+		if (revealCheckBox.checked && companyNameInput) {
+			companyData = companyNameInput.value;
+		}
+
 		// Collect data from main inspection table and also allows for blank inputs
 		let mainTable = document.getElementById("table_main")
 		let mainData = Array.from(mainTable.rows).slice(1).map(row => ({
@@ -404,6 +413,7 @@ window.onload = function() {
 		let jsonData = {
 			meta: { schemaVersion: json_schema_version },
 			reasons: reasonCheckboxes(),
+			companyName: companyData,
 			partInfo: partInfoData,
 			mainData: mainData,
 			comments: document.getElementById("commentTextBox") ? document.getElementById("commentTextBox").value : ''
