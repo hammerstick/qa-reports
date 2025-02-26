@@ -394,6 +394,8 @@ window.onload = function() {
 		let companyData = ''
 
 		let revealCheckBox = document.getElementById('revealcheckbox')
+		let isRevealChecked = revealCheckBox.checked;
+
 		if (revealCheckBox.checked && companyNameInput) {
 			companyData = companyNameInput.value;
 		}
@@ -414,6 +416,7 @@ window.onload = function() {
 			meta: { schemaVersion: json_schema_version },
 			reasons: reasonCheckboxes(),
 			companyName: companyData,
+			revealChecked: isRevealChecked,
 			partInfo: partInfoData,
 			mainData: mainData,
 			comments: document.getElementById("commentTextBox") ? document.getElementById("commentTextBox").value : ''
