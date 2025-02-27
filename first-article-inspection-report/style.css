@@ -50,11 +50,6 @@ body {
 	input {
 		border: 0px !important;
 	}
-
-	.hide-company-name {
-		visibility: hidden !important;
-	}
-
 }
 
 h1, h2, h3 {

@@ -188,11 +188,11 @@ window.onload = function() {
 
 	function companyNameVisibility() {
 
-		let companyNameInput = document.querySelector("input.companyname")
+		let companyNameInput = document.querySelector(".table_company_name_section")
 			if (revealCheckBox.checked) {
-				companyNameInput.classList.remove("hide-company-name")
+				companyNameInput.classList.remove("no-print")
 			} else {
-				companyNameInput.classList.add("hide-company-name")
+				companyNameInput.classList.add("no-print")
 		}
 	}
 
