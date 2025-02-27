@@ -186,6 +186,12 @@ window.onload = function() {
 
 	let revealCheckBox = document.getElementById("revealcheckbox")
 
+	/**
+	 * This function controls the visibility of the company name section in a table based on the state of the checkbox.
+	 *
+	 * When the `revealcheckbox` is checked, the function removes the "no-print" class from the company name table section, making it visible when printing
+	 * When unchecked, the function adds the "no-print" class from the company name table section, hiding the entire section when printing.
+	 */
 	function companyNameVisibility() {
 
 		let companyNameInput = document.querySelector(".table_company_name_section")
