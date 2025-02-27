@@ -391,7 +391,7 @@ window.onload = function() {
 
 		// Collect data from company name table and also allows for blank inputs
 		let companyNameInput = document.querySelector("input.companyname")
-		let companyData = ''
+		let companyNameValue = companyNameInput ? companyNameInput.value : ""
 
 		/* Include the Reveal checkbox in the object
 		If the checkbox is unchecked, the value will be false
@@ -400,9 +400,7 @@ window.onload = function() {
 		let revealCheckBox = document.getElementById('revealcheckbox')
 		let isRevealChecked = revealCheckBox.checked;
 
-		if (revealCheckBox.checked && companyNameInput) {
-			companyData = companyNameInput.value;
-		}
+		let companyData = isRevealChecked ? companyNameValue : ""
 
 		// Collect data from main inspection table and also allows for blank inputs
 		let mainTable = document.getElementById("table_main")
@@ -428,7 +426,7 @@ window.onload = function() {
 
 		let jsonString = JSON.stringify(jsonData, null, 2)
 
-		let companyName = companyData ? `_${companyData}` : ""
+		let companyName = companyNameValue ? `_${companyNameValue}` : ""
 		let partNum = partInfoData[0]?.partNum || ""
 		let partRev = partInfoData[0]?.partRev ? `rev${partInfoData[0]?.partRev}` : ""
 		let currentDate = new Date().toISOString().split('T')[0]
