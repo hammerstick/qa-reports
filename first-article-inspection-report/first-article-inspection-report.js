@@ -398,7 +398,7 @@ window.onload = function() {
 		If the checkbox is checked, the value will be true
 		*/
 		let revealCheckBox = document.getElementById('revealcheckbox')
-		let isRevealChecked = revealCheckBox.checked;
+		let isRevealChecked = revealCheckBox.checked
 
 		let companyData = isRevealChecked ? companyNameValue : ""
 
@@ -508,7 +508,7 @@ window.onload = function() {
 					 * */
 					const revealCheckBox = document.getElementById("revealcheckbox")
 					if (revealCheckBox) {
-						revealCheckBox.checked = jsonData.revealChecked || false;
+						revealCheckBox.checked = jsonData.revealChecked || false
 					}
 
 					// Populate the part info table
