@@ -50,6 +50,11 @@ body {
 	input {
 		border: 0px !important;
 	}
+
+	.hide-brand-name {
+		visibility: hidden !important;
+	}
+
 }
 
 h1, h2, h3 {
@@ -102,7 +107,7 @@ h1, h2, h3 {
 	font-weight: lighter;
 }
 
-.company_name_container{
+.brand_name_container{
 	text-align: center;
 }
 
@@ -128,13 +133,13 @@ h1, h2, h3 {
 	background-color: whitesmoke;
 }
 
-#table_company_name_info {
+#table_brand_name_info {
 	margin-left: auto;
 	margin-right: auto;
 	margin-bottom: 20px;
 }
 
-#table_company_name_info th {
+#table_brand_name_info th {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -144,7 +149,7 @@ h1, h2, h3 {
 	gap: 40px;
 }
 
-#table_company_name_info div {
+#table_brand_name_info div {
 	display: flex;
 	align-items: center;
 }
@@ -171,8 +176,8 @@ input {
 	text-align: center;
 }
 
-/* Styles for cells in the table_company_name_info table */
-.companyname {
+/* Styles for cells in the table_brand_name_info table */
+.brandname {
 	width: 50em;
 }
 

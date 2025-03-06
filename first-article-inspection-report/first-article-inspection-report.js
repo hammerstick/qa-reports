@@ -34,9 +34,9 @@ const json_schema_version = 1
  */
 const rowNumInitial = 28
 
-//The row of the table containing the company name
-let table_company_name_cell = [
-							   "<label><input type=\"text\" class=\"companyname\" ></input></label>",
+//The row of the table containing the brand name
+let table_brand_name_cell = [
+							   "<label><input type=\"text\" class=\"brandname\" ></input></label>",
 							  ]
 
 // The row of the table containing part information (part number, part description, etc.) will contain these cells
@@ -173,38 +173,38 @@ function rowFunc(row) {
 }
 
 window.onload = function() {
-	let table_company_name_info = new Table(document.getElementById("table_company_name_info"))
-	table_company_name_info.regHead(document.getElementById("table_company_name_info").thead, "head")
-	table_company_name_info.regBody(document.getElementById("table_company_name_info").getElementsByTagName("tbody")[0], "body")
+	let table_brand_name_info = new Table(document.getElementById("table_brand_name_info"))
+	table_brand_name_info.regHead(document.getElementById("table_brand_name_info").thead, "head")
+	table_brand_name_info.regBody(document.getElementById("table_brand_name_info").getElementsByTagName("tbody")[0], "body")
 
-	table_company_name_info.appendRows("body",
+	table_brand_name_info.appendRows("body",
 	                          1,
 	                          1,
 	                          parseInputCellsInRow,
-	                          arrayToGenerator(table_company_name_cell, 1)
+	                          arrayToGenerator(table_brand_name_cell, 1)
 	                          )
 
 	let revealCheckBox = document.getElementById("revealcheckbox")
 
 	/**
-	 * This function controls the visibility of the company name section in a table based on the state of the checkbox.
+	 * This function controls the visibility of the brand name section in a table based on the state of the checkbox.
 	 *
-	 * When the `revealcheckbox` is checked, the function removes the "no-print" class from the company name table section, making it visible when printing
-	 * When unchecked, the function adds the "no-print" class from the company name table section, hiding the entire section when printing.
+	 * When the `revealcheckbox` is checked, the function removes the "no-print" class from the brand name table section, making it visible when printing
+	 * When unchecked, the function adds the "no-print" class from the brand name table section, hiding the entire section when printing.
 	 */
-	function companyNameVisibility() {
+	function brandNameVisibility() {
 
-		let companyNameInput = document.querySelector(".table_company_name_section")
+		let brandNameInput = document.querySelector("input.brandname")
 			if (revealCheckBox.checked) {
-				companyNameInput.classList.remove("no-print")
+				brandNameInput.classList.remove("hide-brand-name")
 			} else {
-				companyNameInput.classList.add("no-print")
+				brandNameInput.classList.add("hide-brand-name")
 		}
 	}
 
-	companyNameVisibility()
+	brandNameVisibility()
 
-	revealCheckBox.addEventListener("change", companyNameVisibility)
+	revealCheckBox.addEventListener("change", brandNameVisibility)
 
 	let table_part_info = new Table(document.getElementById("table_part_info"))
 	table_part_info.regHead(document.getElementById("table_part_info").tHead, "head")
@@ -395,9 +395,9 @@ window.onload = function() {
 			partSerial: row.cells[4].querySelector('.partserial') ? row.cells[4].querySelector('.partserial').value : '',
 		}))
 
-		// Collect data from company name table and also allows for blank inputs
-		let companyNameInput = document.querySelector("input.companyname")
-		let companyNameValue = companyNameInput ? companyNameInput.value : ""
+		// Collect data from brand name table and also allows for blank inputs
+		let brandNameInput = document.querySelector("input.brandname")
+		let brandNameValue = brandNameInput ? brandNameInput.value : ""
 
 		/* Include the Reveal checkbox in the object
 		If the checkbox is unchecked, the value will be false
@@ -406,7 +406,7 @@ window.onload = function() {
 		let revealCheckBox = document.getElementById('revealcheckbox')
 		let isRevealChecked = revealCheckBox.checked
 
-		let companyData = isRevealChecked ? companyNameValue : ""
+		let brandData = isRevealChecked ? brandNameValue : ""
 
 		// Collect data from main inspection table and also allows for blank inputs
 		let mainTable = document.getElementById("table_main")
@@ -423,7 +423,7 @@ window.onload = function() {
 		let jsonData = {
 			meta: { schemaVersion: json_schema_version },
 			reasons: reasonCheckboxes(),
-			companyName: companyData,
+			brandName: brandData,
 			revealChecked: isRevealChecked,
 			partInfo: partInfoData,
 			mainData: mainData,
@@ -432,12 +432,12 @@ window.onload = function() {
 
 		let jsonString = JSON.stringify(jsonData, null, 2)
 
-		let companyName = companyNameValue ? `_${companyNameValue}` : ""
+		let brandName = brandNameValue ? `_${brandNameValue}` : ""
 		let partNum = partInfoData[0]?.partNum || ""
 		let partRev = partInfoData[0]?.partRev ? `rev${partInfoData[0]?.partRev}` : ""
 		let currentDate = new Date().toISOString().split('T')[0]
 
-		let fileName = `fair${companyName}_${partNum}${partRev}_${currentDate}`
+		let fileName = `fair${brandName}_${partNum}${partRev}_${currentDate}`
 
 		// Create a blob and download the file
 		let blob = new Blob([jsonString], { type: "application/json" })
@@ -501,10 +501,10 @@ window.onload = function() {
 						return
 					}
 
-					// Populate the company name table
-					const companyNameInput = document.querySelector("input.companyname")
-					if (companyNameInput) {
-						companyNameInput.value = jsonData.companyName || ""
+					// Populate the brand name table
+					const brandNameInput = document.querySelector("input.brandname")
+					if (brandNameInput) {
+						brandNameInput.value = jsonData.brandName || ""
 					}
 
 					/**
