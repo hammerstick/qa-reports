@@ -406,7 +406,7 @@ window.onload = function() {
 		let revealCheckBox = document.getElementById('revealcheckbox')
 		let isRevealChecked = revealCheckBox.checked
 
-		let brandData = isRevealChecked ? brandNameValue : ""
+		// let brandData = isRevealChecked ? brandNameValue : ""
 
 		// Collect data from main inspection table and also allows for blank inputs
 		let mainTable = document.getElementById("table_main")
@@ -423,9 +423,13 @@ window.onload = function() {
 		let jsonData = {
 			meta: { schemaVersion: json_schema_version },
 			reasons: reasonCheckboxes(),
-			brandName: brandData,
-			revealChecked: isRevealChecked,
-			partInfo: partInfoData,
+			partInfo: partInfoData.map( info => ({
+				partBrandName: {
+					name: brandNameValue,
+					reveal: isRevealChecked
+				},
+				...info,
+			})),
 			mainData: mainData,
 			comments: document.getElementById("commentTextBox") ? document.getElementById("commentTextBox").value : ''
 		}
