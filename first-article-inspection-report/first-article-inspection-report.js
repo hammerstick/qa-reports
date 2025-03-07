@@ -194,7 +194,7 @@ window.onload = function() {
 	 */
 	function brandNameVisibility() {
 
-		let brandNameInput = document.querySelector("input.brandname")
+		let brandNameInput = document.querySelector(".table_brand_name_section")
 			if (revealCheckBox.checked) {
 				brandNameInput.classList.remove("hide-brand-name")
 			} else {
