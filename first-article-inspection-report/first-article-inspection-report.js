@@ -196,9 +196,9 @@ window.onload = function() {
 
 		let brandNameInput = document.querySelector(".table_brand_name_section")
 			if (revealCheckBox.checked) {
-				brandNameInput.classList.remove("hide-brand-name")
+				brandNameInput.classList.remove("no-print")
 			} else {
-				brandNameInput.classList.add("hide-brand-name")
+				brandNameInput.classList.add("no-print")
 		}
 	}
 
