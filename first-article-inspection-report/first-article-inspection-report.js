@@ -34,6 +34,11 @@ const json_schema_version = 1
  */
 const rowNumInitial = 28
 
+//The row of the table containing the brand name
+let table_brand_name_cell = [
+							   "<label><input type=\"text\" class=\"brandname\" ></input></label>",
+							  ]
+
 // The row of the table containing part information (part number, part description, etc.) will contain these cells
 let table_part_info_cells = [
                              "<label><input type=\"text\" class=\"partnum\" ></input></label>",
@@ -168,6 +173,39 @@ function rowFunc(row) {
 }
 
 window.onload = function() {
+	let table_brand_name_info = new Table(document.getElementById("table_brand_name_info"))
+	table_brand_name_info.regHead(document.getElementById("table_brand_name_info").thead, "head")
+	table_brand_name_info.regBody(document.getElementById("table_brand_name_info").getElementsByTagName("tbody")[0], "body")
+
+	table_brand_name_info.appendRows("body",
+	                          1,
+	                          1,
+	                          parseInputCellsInRow,
+	                          arrayToGenerator(table_brand_name_cell, 1)
+	                          )
+
+	let revealCheckBox = document.getElementById("revealcheckbox")
+
+	/**
+	 * This function controls the visibility of the brand name section in a table based on the state of the checkbox.
+	 *
+	 * When the `revealcheckbox` is checked, the function removes the "no-print" class from the brand name table section, making it visible when printing
+	 * When unchecked, the function adds the "no-print" class from the brand name table section, hiding the entire section when printing.
+	 */
+	function brandNameVisibility() {
+
+		let brandNameInput = document.querySelector(".table_brand_name_section")
+			if (revealCheckBox.checked) {
+				brandNameInput.classList.remove("no-print")
+			} else {
+				brandNameInput.classList.add("no-print")
+		}
+	}
+
+	brandNameVisibility()
+
+	revealCheckBox.addEventListener("change", brandNameVisibility)
+
 	let table_part_info = new Table(document.getElementById("table_part_info"))
 	table_part_info.regHead(document.getElementById("table_part_info").tHead, "head")
 	table_part_info.regBody(document.getElementById("table_part_info").getElementsByTagName("tbody")[0], "body")
@@ -357,6 +395,19 @@ window.onload = function() {
 			partSerial: row.cells[4].querySelector('.partserial') ? row.cells[4].querySelector('.partserial').value : '',
 		}))
 
+		// Collect data from brand name table and also allows for blank inputs
+		let brandNameInput = document.querySelector("input.brandname")
+		let brandNameValue = brandNameInput ? brandNameInput.value : ""
+
+		/* Include the Reveal checkbox in the object
+		If the checkbox is unchecked, the value will be false
+		If the checkbox is checked, the value will be true
+		*/
+		let revealCheckBox = document.getElementById('revealcheckbox')
+		let isRevealChecked = revealCheckBox.checked
+
+		// let brandData = isRevealChecked ? brandNameValue : ""
+
 		// Collect data from main inspection table and also allows for blank inputs
 		let mainTable = document.getElementById("table_main")
 		let mainData = Array.from(mainTable.rows).slice(1).map(row => ({
@@ -372,18 +423,25 @@ window.onload = function() {
 		let jsonData = {
 			meta: { schemaVersion: json_schema_version },
 			reasons: reasonCheckboxes(),
-			partInfo: partInfoData,
+			partInfo: partInfoData.map( info => ({
+				partBrandName: {
+					name: brandNameValue,
+					reveal: isRevealChecked
+				},
+				...info,
+			})),
 			mainData: mainData,
 			comments: document.getElementById("commentTextBox") ? document.getElementById("commentTextBox").value : ''
 		}
 
 		let jsonString = JSON.stringify(jsonData, null, 2)
 
+		let brandName = brandNameValue ? `_${brandNameValue}` : ""
 		let partNum = partInfoData[0]?.partNum || ""
 		let partRev = partInfoData[0]?.partRev ? `rev${partInfoData[0]?.partRev}` : ""
 		let currentDate = new Date().toISOString().split('T')[0]
 
-		let fileName = `fair_${partNum}${partRev}_${currentDate}`
+		let fileName = `fair${brandName}_${partNum}${partRev}_${currentDate}`
 
 		// Create a blob and download the file
 		let blob = new Blob([jsonString], { type: "application/json" })
@@ -445,6 +503,22 @@ window.onload = function() {
 					if ( jsonData.meta.schemaVersion > json_schema_version ) {
 						window.alert(`ERROR: JSON file has incompatible version ${jsonData.meta.schemaVersion}. Only versions ${json_schema_version} and lower are supported.`)
 						return
+					}
+
+					// Populate the brand name table
+					const brandNameInput = document.querySelector("input.brandname")
+					if (brandNameInput) {
+						brandNameInput.value = jsonData.brandName || ""
+					}
+
+					/**
+					 * Populate the data for the state of the reveal checkbox
+					 * If the checkbox is checked, the value will be true,
+					 * If the checkbox is unchecked, the value will be false
+					 * */
+					const revealCheckBox = document.getElementById("revealcheckbox")
+					if (revealCheckBox) {
+						revealCheckBox.checked = jsonData.revealChecked || false
 					}
 
 					// Populate the part info table

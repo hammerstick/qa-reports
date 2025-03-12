@@ -50,6 +50,11 @@ body {
 	input {
 		border: 0px !important;
 	}
+
+	.hide-brand-name {
+		visibility: hidden !important;
+	}
+
 }
 
 h1, h2, h3 {
@@ -93,6 +98,19 @@ h1, h2, h3 {
 	content: "✓";
 }
 
+/* "Reveal" section */
+.reveal_container {
+	font-size: 12px;
+	position: absolute;
+	right: 0;
+	padding-right: 5px;
+	font-weight: lighter;
+}
+
+.brand_name_container{
+	text-align: center;
+}
+
 /* Table stylings */
 .table_basic {
 	table-layout: auto;
@@ -115,6 +133,27 @@ h1, h2, h3 {
 	background-color: whitesmoke;
 }
 
+#table_brand_name_info {
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 20px;
+}
+
+#table_brand_name_info th {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	padding-bottom: 5px;
+	flex-direction: row;
+	gap: 40px;
+}
+
+#table_brand_name_info div {
+	display: flex;
+	align-items: center;
+}
+
 #table_part_info {
 	margin-left: auto;
 	margin-right: auto;
@@ -135,6 +174,11 @@ h1, h2, h3 {
 input {
 	background: transparent;
 	text-align: center;
+}
+
+/* Styles for cells in the table_brand_name_info table */
+.brandname {
+	width: 50em;
 }
 
 /* Styles for cells in the table_part_info table */
