@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License along with thi
  * Any JSON exported will have this schema version number. When importing a JSON file, the file will only be supported if it has a version number equal to or less then this version number.
  * This version number should be incremented whenever the JSON schema changes.
  */
-const json_schema_version = 1
+const json_schema_version = 2
 
 /* ******************** */
 // Main
