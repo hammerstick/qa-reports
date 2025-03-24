@@ -443,7 +443,7 @@ window.onload = function() {
 		let partRev = partInfoData[0]?.partRev ? `rev${partInfoData[0]?.partRev}` : ""
 		let currentDate = new Date().toISOString().split('T')[0]
 
-		let fileName = `fair${brandName}_${partNum}${partRev}_${currentDate}`
+		let fileName = `fair${brandName}_${partNum}${partRev}_${currentDate}.json`
 
 		// Create a blob and download the file
 		let blob = new Blob([jsonString], { type: "application/json" })
