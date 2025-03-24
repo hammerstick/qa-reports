@@ -194,7 +194,7 @@ window.onload = function() {
 	 */
 	function brandNameVisibility() {
 
-		let brandNameInput = document.querySelector(".table_brand_name_section")
+		let brandNameInput = document.getElementById("table_brand_name_section")
 			if (revealCheckBox.checked) {
 				brandNameInput.classList.remove("no-print")
 			} else {
@@ -508,7 +508,7 @@ window.onload = function() {
 					}
 
 					// Populate the brand name table
-					const brandNameInput = document.querySelector("input.brandname")
+					const brandNameInput = document.getElementById("table_brand_name_info")
 					if (brandNameInput) {
 						brandNameInput.value = jsonData.brandName || ""
 					}
