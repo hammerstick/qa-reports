@@ -177,7 +177,7 @@ input {
 }
 
 /* Styles for cells in the table_brand_name_info table */
-.brandname {
+#partbrandname {
 	width: 50em;
 }
 

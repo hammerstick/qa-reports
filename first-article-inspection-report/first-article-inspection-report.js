@@ -36,7 +36,7 @@ const rowNumInitial = 28
 
 //The row of the table containing the brand name
 let table_brand_name_cell = [
-							   "<label><input type=\"text\" class=\"brandname\" ></input></label>",
+							   "<label><input type=\"text\" id=\"partbrandname\" ></input></label>",
 							  ]
 
 // The row of the table containing part information (part number, part description, etc.) will contain these cells
@@ -396,7 +396,7 @@ window.onload = function() {
 		}))
 
 		// Collect data from brand name table and also allows for blank inputs
-		let brandNameInput = document.querySelector("input.brandname")
+		let brandNameInput = document.getElementById("partbrandname")
 		let brandNameValue = brandNameInput ? brandNameInput.value : ""
 
 		/* Include the Reveal checkbox in the object
@@ -508,9 +508,9 @@ window.onload = function() {
 					}
 
 					// Populate the brand name table
-					const brandNameInput = document.getElementById("table_brand_name_info")
+					const brandNameInput = document.getElementById("partbrandname")
 					if (brandNameInput) {
-						brandNameInput.value = jsonData.brandName || ""
+						brandNameInput.value = jsonData.partInfo[0].partBrandName.name || ""
 					}
 
 					/**
