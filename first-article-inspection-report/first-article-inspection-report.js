@@ -436,7 +436,9 @@ window.onload = function() {
 
 		let jsonString = JSON.stringify(jsonData, null, 2)
 
-		let brandName = brandNameValue ? `_${brandNameValue}` : ""
+		// Use kebab-case for the brand name to remove spaces in the export JSON file name
+		let brandName = brandNameValue ? `_${brandNameValue}`.replace(" ", "-").toLowerCase() : ""
+
 		let partNum = partInfoData[0]?.partNum || ""
 		let partRev = partInfoData[0]?.partRev ? `rev${partInfoData[0]?.partRev}` : ""
 		let currentDate = new Date().toISOString().split('T')[0]
