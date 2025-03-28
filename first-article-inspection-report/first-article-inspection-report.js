@@ -537,6 +537,24 @@ window.onload = function() {
 
 					// Populate the main inspection table
 					const mainTable = document.getElementById("table_main")
+					let mainTableRowsCount = mainTable.rows.length - 1
+					let neededRows = jsonData.mainData.length
+
+					for (let i = mainTableRowsCount; i < neededRows; i++) {
+						let newRow = mainTable.insertRow()
+						for (let j = 0; j < 6; j++) { // This for loop will loop 6 times, one for each cell in the new row
+							let cell = newRow.insertCell(j)
+							if (j === 0) {
+								cell.textContent = i + 1 // Use i + 1 for the actual row number
+							} else {
+								let input = document.createElement('input')
+								let classes = ['pagenum', 'loc', 'param', 'actual', 'insptool']
+								input.classList.add(classes[j - 1])
+								cell.appendChild(input)
+							}
+						}
+					}
+
 					jsonData.mainData.forEach((item, index) => {
 						if (index < mainTable.rows.length - 1) {
 							mainTable.rows[index + 1].cells[0].textContent = item.itemNum
