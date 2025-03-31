@@ -537,12 +537,13 @@ window.onload = function() {
 
 					// Populate the main inspection table
 					const mainTable = document.getElementById("table_main")
+					let mainTableColumnsCount = mainTable.querySelectorAll("thead tr th").length
 					let mainTableRowsCount = mainTable.rows.length - 1
 					let neededRows = jsonData.mainData.length
 
 					for (let i = mainTableRowsCount; i < neededRows; i++) {
 						let newRow = mainTable.insertRow()
-						for (let j = 0; j < 6; j++) { // This for loop will loop 6 times, one for each cell in the new row
+						for (let j = 0; j < mainTableColumnsCount; j++) {
 							let cell = newRow.insertCell(j)
 							if (j === 0) {
 								cell.textContent = i + 1 // Use i + 1 for the actual row number
