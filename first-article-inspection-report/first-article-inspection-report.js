@@ -105,54 +105,9 @@ function parseInputCellsInRow(row) {
 		node.addEventListener("blur", function() {
 			node.value = replaceSubstringMap(node.value, mathMap)
 		})
-
-		node.addEventListener('keydown', function(event) {
-			if (event.key === "Enter") {
-				event.preventDefault()
-
-				let nextInput = goToNextInput(node)
-				if (nextInput) {
-					nextInput.focus()
-				}
-			}
-		})
 	}
 }
 
-/** Finds the next input in the same column of the following row in the table, allowing
- *  users to navigate to the next input by pressing the 'Enter' key.
- *
- * This function is used to enable keyboard navigation within a table, moving to the next
- * input field directly below the current one.
- *
- * @param {object} currentInput - The current input DOM element where 'Enter' is pressed.
-*/
-function goToNextInput(currentInput) {
-	// Get the current row and column of the current input
-	let currentRow = currentInput.closest('tr')
-	let currentColumn = Array.from(currentInput.closest('td').parentNode.children)
-	let currentColumnIndex = currentColumn.indexOf(currentInput.closest('td'))
-
-	let tableBody = currentRow.closest('tbody')
-
-	let allRows = Array.from(tableBody.querySelectorAll('tr'))
-
-	let currentRowIndex = allRows.indexOf(currentRow)
-
-	// Check if there is a next row
-	if (currentRowIndex < allRows.length - 1) {
-		let nextRow = allRows[currentRowIndex + 1]
-
-		// Get the next input in the same column in the next row
-		let nextInput = nextRow.cells[currentColumnIndex].querySelector('input[type="text"]')
-
-		if (nextInput) {
-			return nextInput
-		}
-	}
-
-	return null
-}
 
 /**
  * This function simply runs other functions that should be called on rows in a table.
@@ -580,7 +535,29 @@ window.onload = function() {
 	})
 
 	document.getElementById("importJsonButton").addEventListener("click", importJson)
+	/**
+	 * This global event listener enables moving down the input fields in the main table using the 'Enter' key via Event Delegation.
+	 */
+	document.getElementById("table_main").addEventListener("keydown", function(event) {
+		if (event.target.tagName === "INPUT" && event.key === "Enter") {
+		let currentInput = event.target;
+		let currentRow = currentInput.closest("tr");
+		let nextRow = currentRow.nextElementSibling;
 
+		if (nextRow) {
+			let columnIndex = [...currentRow.cells].indexOf(currentInput.closest("td"));
+			let nextCell = nextRow.cells[columnIndex];
+
+			if (nextCell) {
+				let nextInput = nextCell.querySelector("input");
+				if (nextInput) {
+					nextInput.focus();
+				}
+			}
+		}
+		event.preventDefault();
+		}
+	});
 
 	// Floating info box
 	let info_escaped_text = new Table(document.getElementById("info_escaped_text"))
