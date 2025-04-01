@@ -496,6 +496,11 @@ window.onload = function() {
 					let mainTableRowsCount = mainTable.rows.length - 1
 					let neededRows = jsonData.mainData.length
 
+					// Remove any extra rows that are not in the imported file
+					for (let i = mainTableRowsCount; i > neededRows; i--) {
+						mainTable.deleteRow(i)
+					}
+
 					for (let i = mainTableRowsCount; i < neededRows; i++) {
 						let newRow = mainTable.insertRow()
 						for (let j = 0; j < mainTableColumnsCount; j++) {
