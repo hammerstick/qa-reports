@@ -492,28 +492,22 @@ window.onload = function() {
 
 					// Populate the main inspection table
 					const mainTable = document.getElementById("table_main")
-					let mainTableColumnsCount = mainTable.querySelectorAll("thead tr th").length
 					let mainTableRowsCount = mainTable.rows.length - 1
-					let neededRows = jsonData.mainData.length
+					let neededRowsCount = jsonData.mainData.length
 
 					// Remove any extra rows that are not in the imported file
-					for (let i = mainTableRowsCount; i > neededRows; i--) {
+					for (let i = mainTableRowsCount; i > neededRowsCount; i--) {
 						mainTable.deleteRow(i)
 					}
 
-					for (let i = mainTableRowsCount; i < neededRows; i++) {
-						let newRow = mainTable.insertRow()
-						for (let j = 0; j < mainTableColumnsCount; j++) {
-							let cell = newRow.insertCell(j)
-							if (j === 0) {
-								cell.textContent = i + 1 // Use i + 1 for the actual row number
-							} else {
-								let input = document.createElement('input')
-								let classes = ['pagenum', 'loc', 'param', 'actual', 'insptool']
-								input.classList.add(classes[j - 1])
-								cell.appendChild(input)
-							}
-						}
+					// Append necessary new rows
+					if (mainTableRowsCount < neededRowsCount) {
+						table_main.appendRows("body",
+						                      neededRowsCount - mainTableRowsCount,
+						                      table_main.heads.get("head").rows[0].cells.length,
+						                      rowFunc,
+						                      arrayToGenerator(table_main_cells, Infinity)
+						)
 					}
 
 					jsonData.mainData.forEach((item, index) => {
