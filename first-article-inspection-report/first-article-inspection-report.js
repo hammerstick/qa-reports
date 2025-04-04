@@ -539,24 +539,24 @@ window.onload = function() {
 	 */
 	document.getElementById("table_main").addEventListener("keydown", function(event) {
 		if (event.target.tagName === "INPUT" && event.key === "Enter") {
-		let currentInput = event.target;
-		let currentRow = currentInput.closest("tr");
-		let nextRow = currentRow.nextElementSibling;
+		let currentInput = event.target
+		let currentRow = currentInput.closest("tr")
+		let nextRow = currentRow.nextElementSibling
 
 		if (nextRow) {
-			let columnIndex = [...currentRow.cells].indexOf(currentInput.closest("td"));
-			let nextCell = nextRow.cells[columnIndex];
+			let columnIndex = [...currentRow.cells].indexOf(currentInput.closest("td"))
+			let nextCell = nextRow.cells[columnIndex]
 
 			if (nextCell) {
-				let nextInput = nextCell.querySelector("input");
+				let nextInput = nextCell.querySelector("input")
 				if (nextInput) {
-					nextInput.focus();
+					nextInput.focus()
 				}
 			}
 		}
-		event.preventDefault();
+		event.preventDefault()
 		}
-	});
+	})
 
 	// Floating info box
 	let info_escaped_text = new Table(document.getElementById("info_escaped_text"))
