@@ -35,12 +35,12 @@ const json_schema_version = 2
 const rowNumInitial = 28
 
 //The row of the table containing the brand name
-let table_brand_name_cell = [
+const table_brand_name_cell = [
 							   "<label><input type=\"text\" id=\"partbrandname\" ></input></label>",
 							  ]
 
 // The row of the table containing part information (part number, part description, etc.) will contain these cells
-let table_part_info_cells = [
+const table_part_info_cells = [
                              "<label><input type=\"text\" class=\"partnum\" ></input></label>",
 					         "<label><input type=\"text\" class=\"partrev\" ></input></label>",
 					         "<label><input type=\"text\" class=\"partdesc\" ></input></label>",
@@ -49,7 +49,7 @@ let table_part_info_cells = [
                             ]
 
 // Each row of the main table will contain these HTML lines in the cells, in this order.
-let table_main_cells = [
+const table_main_cells = [
                        "<label><input type=\"text\" class=\"itemnum\" ></input></label>",
                        "<label><input type=\"text\" class=\"pagenum\" ></input></label>",
                        "<label><input type=\"text\" class=\"loc\" ></input></label>",
@@ -67,12 +67,12 @@ let table_main_cells = [
  * @param {object} row - The table row DOM element that will have a child menu appended.
  */
 function addFloatingMenuToRow(row) {
-	let table_menu_elem = document.createElement("div")
+	const table_menu_elem = document.createElement("div")
 	table_menu_elem.classList.add("table_menu_float")
 	table_menu_elem.classList.add("no-print")
 
 	// Put a "Delete row" button in the menu
-	let row_delete_button = document.createElement("button")
+	const row_delete_button = document.createElement("button")
 	row_delete_button.type = "button"
 	row_delete_button.classList.add("rowDelete")
 	row_delete_button.textContent = "Delete row"
@@ -82,7 +82,7 @@ function addFloatingMenuToRow(row) {
 	})
 	table_menu_elem.append(row_delete_button)
 
-	let table_menu = new Menu(table_menu_elem)
+	const table_menu = new Menu(table_menu_elem)
 	table_menu.regAllChildrenButtons()
 
 	row.append(table_menu_elem)
@@ -100,7 +100,7 @@ function addFloatingMenuToRow(row) {
  * @param {object} row - The table row DOM element holding children nodes with 'type=text' attribute.
  */
 function parseInputCellsInRow(row) {
-	let typeTextNodes = row.querySelectorAll("input[type=text]")
+	const typeTextNodes = row.querySelectorAll("input[type=text]")
 	for (let node of typeTextNodes) {
 		node.addEventListener("blur", function() {
 			node.value = replaceSubstringMap(node.value, mathMap)
@@ -128,7 +128,7 @@ function rowFunc(row) {
 }
 
 window.onload = function() {
-	let table_brand_name_info = new Table(document.getElementById("table_brand_name_info"))
+	const table_brand_name_info = new Table(document.getElementById("table_brand_name_info"))
 	table_brand_name_info.regHead(document.getElementById("table_brand_name_info").thead, "head")
 	table_brand_name_info.regBody(document.getElementById("table_brand_name_info").getElementsByTagName("tbody")[0], "body")
 
@@ -139,7 +139,7 @@ window.onload = function() {
 	                          arrayToGenerator(table_brand_name_cell, 1)
 	                          )
 
-	let revealCheckBox = document.getElementById("revealcheckbox")
+	const revealCheckBox = document.getElementById("revealcheckbox")
 
 	/**
 	 * This function controls the visibility of the brand name section in a table based on the state of the checkbox.
@@ -149,7 +149,7 @@ window.onload = function() {
 	 */
 	function brandNameVisibility() {
 
-		let brandNameInput = document.getElementById("table_brand_name_section")
+		const brandNameInput = document.getElementById("table_brand_name_section")
 			if (revealCheckBox.checked) {
 				brandNameInput.classList.remove("no-print")
 			} else {
@@ -161,7 +161,7 @@ window.onload = function() {
 
 	revealCheckBox.addEventListener("change", brandNameVisibility)
 
-	let table_part_info = new Table(document.getElementById("table_part_info"))
+	const table_part_info = new Table(document.getElementById("table_part_info"))
 	table_part_info.regHead(document.getElementById("table_part_info").tHead, "head")
 	table_part_info.regBody(document.getElementById("table_part_info").getElementsByTagName("tbody")[0], "body")
 
@@ -173,7 +173,7 @@ window.onload = function() {
 	                           )
 
 
-	let table_main = new Table(document.getElementById("table_main"))
+	const table_main = new Table(document.getElementById("table_main"))
 	table_main.regHead(document.getElementById("table_main").tHead, "head")
 	table_main.regBody(document.getElementById("table_main").getElementsByTagName("tbody")[0], "body")
 
@@ -195,8 +195,8 @@ window.onload = function() {
 	table_menu.regAllChildrenInputs()
 
 	// "Insert new row" button processing
-	let rowAppendButton = document.getElementById('rowAppend')
-	let rowAppendNumInput = document.getElementById('rowAppendNum')
+	const rowAppendButton = document.getElementById('rowAppend')
+	const rowAppendNumInput = document.getElementById('rowAppendNum')
 
 	rowAppendNumInput.addEventListener('keydown', function(event) {
 		if (event.key === "Enter") {
@@ -206,7 +206,7 @@ window.onload = function() {
 	})
 
 	rowAppendButton.addEventListener( "click", function() {
-		let append_this_many_rows = parseInt(rowAppendNumInput.value, 10) || 1
+		const append_this_many_rows = parseInt(rowAppendNumInput.value, 10) || 1
 
 		table_main.appendRows("body",
 		                      append_this_many_rows,
@@ -227,8 +227,8 @@ window.onload = function() {
 	 *
 	 * @param {Event} event - The button click even triggering the row deletion.
 	 */
-	let rowDeleteButton = document.getElementById('rowDelete')
-	let rowDeleteNumInput = document.getElementById('rowDeleteInput')
+	const rowDeleteButton = document.getElementById('rowDelete')
+	const rowDeleteNumInput = document.getElementById('rowDeleteInput')
 
 	rowDeleteNumInput.addEventListener('keydown', function(event) {
 		if (event.key === "Enter") {
@@ -240,21 +240,21 @@ window.onload = function() {
 	rowDeleteButton.addEventListener('click', function(event) {
 		event.preventDefault()
 
-		let delete_these_rows_input = (rowDeleteNumInput.value.trim())
+		const delete_these_rows_input = (rowDeleteNumInput.value.trim())
 
 		// Do nothing if input is blank
 		if (!delete_these_rows_input) return
 
-		let itemNumbersToDelete = []
+		const itemNumbersToDelete = []
 
 		// Deletion of multiple rows indicated by comma separation
-		let delete_range = delete_these_rows_input.split(',')
+		const delete_range = delete_these_rows_input.split(',')
 
 		for (let range of delete_range) {
 			// Checking if input contains a hyphen, indicating a specified range of rows based on item numbers
 			if (range.includes('-')) {
 				// Split the range string into start and end values, and converting them to numbers
-				let [start, end] = range.split('-').map(Number)
+				const [start, end] = range.split('-').map(Number)
 
 				// Make sure start and end values are in fact numbers/integers
 				if (!isNaN(start) && !isNaN(end) && start > 0 && end > 0) {
@@ -264,7 +264,7 @@ window.onload = function() {
 				}
 			} else {
 				// For single number input deletion
-				let itemNumber = Number(range.trim())
+				const itemNumber = Number(range.trim())
 				if (!isNaN(itemNumber) && itemNumber > 0) {
 					itemNumbersToDelete.push(itemNumber)
 				}
@@ -272,9 +272,9 @@ window.onload = function() {
 		}
 
 		// Using a Set to store unique values, this makes sure that any duplicate values will not be considered/added, thus no duplicate row number deletions.
-		let uniqueItemNumbersToDelete = [...new Set(itemNumbersToDelete)].sort((a, b) => b - a)
+		const uniqueItemNumbersToDelete = [...new Set(itemNumbersToDelete)].sort((a, b) => b - a)
 
-		let successfullyDeleted = []
+		const successfullyDeleted = []
 
 		// Select all rows in the table body
 		const rows = document.querySelectorAll('#table_main tbody tr')
@@ -282,7 +282,7 @@ window.onload = function() {
 		// Delete rows based on item number
 		uniqueItemNumbersToDelete.forEach((itemNumber) => {
 			// Find the row with the matching item number
-			let rowIndex = Array.from(rows).findIndex((row) => {
+			const rowIndex = Array.from(rows).findIndex((row) => {
 				return Number(row.cells[0].textContent.trim()) === itemNumber
 			})
 
@@ -320,7 +320,7 @@ window.onload = function() {
 	 * @returns {object} - An object representing each checkbox's checked state using boolean values, 'true' for checked and 'false' for unchecked.
 	 */
 	function reasonCheckboxes() {
-		let reasons = {}
+		const reasons = {}
 		document.querySelectorAll('.reasoncheckbox').forEach((checkbox) => {
 			reasons[checkbox.id] = checkbox.checked
 		})
@@ -341,8 +341,8 @@ window.onload = function() {
 	 */
 	function exportToJson() {
 		// Collect data from part info table and also allows for blank inputs
-		let partInfoTable = document.getElementById("table_part_info")
-		let partInfoData = Array.from(partInfoTable.rows).slice(1).map(row => ({
+		const partInfoTable = document.getElementById("table_part_info")
+		const partInfoData = Array.from(partInfoTable.rows).slice(1).map(row => ({
 			partNum: row.cells[0].querySelector('.partnum') ? row.cells[0].querySelector('.partnum').value : '',
 			partRev: row.cells[1].querySelector('.partrev') ? row.cells[1].querySelector('.partrev').value : '',
 			partDesc: row.cells[2].querySelector('.partdesc') ? row.cells[2].querySelector('.partdesc').value : '',
@@ -351,21 +351,21 @@ window.onload = function() {
 		}))
 
 		// Collect data from brand name table and also allows for blank inputs
-		let brandNameInput = document.getElementById("partbrandname")
-		let brandNameValue = brandNameInput ? brandNameInput.value : ""
+		const brandNameInput = document.getElementById("partbrandname")
+		const brandNameValue = brandNameInput ? brandNameInput.value : ""
 
 		/* Include the Reveal checkbox in the object
 		If the checkbox is unchecked, the value will be false
 		If the checkbox is checked, the value will be true
 		*/
-		let revealCheckBox = document.getElementById('revealcheckbox')
-		let isRevealChecked = revealCheckBox.checked
+		const revealCheckBox = document.getElementById('revealcheckbox')
+		const isRevealChecked = revealCheckBox.checked
 
 		// let brandData = isRevealChecked ? brandNameValue : ""
 
 		// Collect data from main inspection table and also allows for blank inputs
-		let mainTable = document.getElementById("table_main")
-		let mainData = Array.from(mainTable.rows).slice(1).map(row => ({
+		const mainTable = document.getElementById("table_main")
+		const mainData = Array.from(mainTable.rows).slice(1).map(row => ({
 			itemNum: row.rowIndex,
 			pageNum: row.cells[1].querySelector('.pagenum') ? row.cells[1].querySelector('.pagenum').value : '',
 			location: row.cells[2].querySelector('.loc') ? row.cells[2].querySelector('.loc').value : '',
@@ -375,7 +375,7 @@ window.onload = function() {
 		}))
 
 		// JSON object
-		let jsonData = {
+		const jsonData = {
 			meta: { schemaVersion: json_schema_version },
 			reasons: reasonCheckboxes(),
 			partInfo: partInfoData.map( info => ({
@@ -389,22 +389,22 @@ window.onload = function() {
 			comments: document.getElementById("commentTextBox") ? document.getElementById("commentTextBox").value : ''
 		}
 
-		let jsonString = JSON.stringify(jsonData, null, 2)
+		const jsonString = JSON.stringify(jsonData, null, 2)
 
 		// Use kebab-case for the brand name to remove spaces in the export JSON file name
-		let brandName = brandNameValue ? `_${brandNameValue}`.replace(" ", "-").toLowerCase() : ""
+		const brandName = brandNameValue ? `_${brandNameValue}`.replace(" ", "-").toLowerCase() : ""
 
-		let partNum = partInfoData[0]?.partNum || ""
-		let partRev = partInfoData[0]?.partRev ? `rev${partInfoData[0]?.partRev}` : ""
-		let currentDate = new Date().toISOString().split('T')[0]
+		const partNum = partInfoData[0]?.partNum || ""
+		const partRev = partInfoData[0]?.partRev ? `rev${partInfoData[0]?.partRev}` : ""
+		const currentDate = new Date().toISOString().split('T')[0]
 
-		let fileName = `fair${brandName}_${partNum}${partRev}_${currentDate}.json`
+		const fileName = `fair${brandName}_${partNum}${partRev}_${currentDate}.json`
 
 		// Create a blob and download the file
-		let blob = new Blob([jsonString], { type: "application/json" })
-		let url = URL.createObjectURL(blob)
+		const blob = new Blob([jsonString], { type: "application/json" })
+		const url = URL.createObjectURL(blob)
 
-		let downloadJsonFile = document.createElement("a")
+		const downloadJsonFile = document.createElement("a")
 		downloadJsonFile.href = url
 		downloadJsonFile.download = fileName
 		downloadJsonFile.click()
@@ -492,8 +492,8 @@ window.onload = function() {
 
 					// Populate the main inspection table
 					const mainTable = document.getElementById("table_main")
-					let mainTableRowsCount = mainTable.rows.length - 1
-					let neededRowsCount = jsonData.mainData.length
+					const mainTableRowsCount = mainTable.rows.length - 1
+					const neededRowsCount = jsonData.mainData.length
 
 					// Remove any extra rows that are not in the imported file
 					for (let i = mainTableRowsCount; i > neededRowsCount; i--) {
@@ -539,16 +539,16 @@ window.onload = function() {
 	 */
 	document.getElementById("table_main").addEventListener("keydown", function(event) {
 		if (event.target.tagName === "INPUT" && event.key === "Enter") {
-		let currentInput = event.target
-		let currentRow = currentInput.closest("tr")
-		let nextRow = currentRow.nextElementSibling
+		const currentInput = event.target
+		const currentRow = currentInput.closest("tr")
+		const nextRow = currentRow.nextElementSibling
 
 		if (nextRow) {
-			let columnIndex = [...currentRow.cells].indexOf(currentInput.closest("td"))
-			let nextCell = nextRow.cells[columnIndex]
+			const columnIndex = [...currentRow.cells].indexOf(currentInput.closest("td"))
+			const nextCell = nextRow.cells[columnIndex]
 
 			if (nextCell) {
-				let nextInput = nextCell.querySelector("input")
+				const nextInput = nextCell.querySelector("input")
 				if (nextInput) {
 					nextInput.focus()
 				}
@@ -559,7 +559,7 @@ window.onload = function() {
 	})
 
 	// Floating info box
-	let info_escaped_text = new Table(document.getElementById("info_escaped_text"))
+	const info_escaped_text = new Table(document.getElementById("info_escaped_text"))
 	info_escaped_text.regHead(info_escaped_text.tableElem.getElementsByTagName("thead")[0], "head")
 	info_escaped_text.regBody(info_escaped_text.tableElem.getElementsByTagName("tbody")[0], "body")
 
