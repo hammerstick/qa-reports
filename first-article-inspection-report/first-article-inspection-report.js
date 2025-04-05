@@ -277,7 +277,7 @@ window.onload = function() {
 		let successfullyDeleted = []
 
 		// Select all rows in the table body
-		const rows = document.querySelectorAll('#table_main tbody tr')
+		let rows = document.querySelectorAll('#table_main tbody tr')
 
 		// Delete rows based on item number
 		uniqueItemNumbersToDelete.forEach((itemNumber) => {
@@ -434,21 +434,21 @@ window.onload = function() {
 	}
 
 	document.getElementById("jsonFileInput").addEventListener("change", function(event) {
-		const file = event.target.files[0]
+		let file = event.target.files[0]
 
 		if (file) {
-			const reader = new FileReader()
+			let reader = new FileReader()
 
 			// Read the file as text and get the data as a string value
 			reader.onload = function(event) {
-				const jsonString = event.target.result
+				let jsonString = event.target.result
 				if (jsonString) {
 					// Parse the JSON data only if the string is not empty
-					const jsonData = JSON.parse(jsonString)
+					let jsonData = JSON.parse(jsonString)
 
 					if (jsonData.reasons) {
 						Object.keys(jsonData.reasons).forEach(reasonId => {
-							const checkbox = document.getElementById(reasonId)
+							let checkbox = document.getElementById(reasonId)
 							if (checkbox) {
 								checkbox.checked = jsonData.reasons[reasonId]
 							}
@@ -463,7 +463,7 @@ window.onload = function() {
 					}
 
 					// Populate the brand name table
-					const brandNameInput = document.getElementById("partbrandname")
+					let brandNameInput = document.getElementById("partbrandname")
 					if (brandNameInput) {
 						brandNameInput.value = jsonData.partInfo[0].partBrandName.name || ""
 					}
@@ -473,13 +473,13 @@ window.onload = function() {
 					 * If the checkbox is checked, the value will be true,
 					 * If the checkbox is unchecked, the value will be false
 					 * */
-					const revealCheckBox = document.getElementById("revealcheckbox")
+					let revealCheckBox = document.getElementById("revealcheckbox")
 					if (revealCheckBox) {
 						revealCheckBox.checked = jsonData.revealChecked || false
 					}
 
 					// Populate the part info table
-					const partInfoTable = document.getElementById("table_part_info")
+					let partInfoTable = document.getElementById("table_part_info")
 					jsonData.partInfo.forEach((part, index) => {
 						if (index < partInfoTable.rows.length - 1) {
 							partInfoTable.rows[index + 1].cells[0].querySelector('.partnum').value = part.partNum
@@ -491,7 +491,7 @@ window.onload = function() {
 					})
 
 					// Populate the main inspection table
-					const mainTable = document.getElementById("table_main")
+					let mainTable = document.getElementById("table_main")
 					let mainTableRowsCount = mainTable.rows.length - 1
 					let neededRowsCount = jsonData.mainData.length
 
@@ -522,7 +522,7 @@ window.onload = function() {
 					})
 
 					// Populate comments
-					const commentTextBox = document.getElementById("commentTextBox")
+					let commentTextBox = document.getElementById("commentTextBox")
 					if (commentTextBox) {
 						commentTextBox.value = jsonData.comments || ''
 					}
